@@ -9,7 +9,7 @@ I'm Bibash, currently pursuing my studies at Tribhuvan University (TU). I'm in t
 
 # 📊 GitHub Stats:
 ![](https://github-readme-stats-nine-gamma-90.vercel.app/api?username=bibashthapa143&theme=tokyonight&hide_border=false)<br/>
-![](https://streak-stats.demolab.com/?user=bibashthapa143)
+![](https://streak-stats.demolab.com/?user=bibashthapa143&background=1A1B27&border=414868&stroke=BB9AF7&ring=BB9AF7&fire=FF9E64&currStreakLabel=BB9AF7&sideLabels=A9B1D6&dates=787C99&currStreakNum=C0CAF5&sideNums=C0CAF5&hide_border=false)<br/>
 ![](https://github-readme-stats-nine-gamma-90.vercel.app/api/top-langs/?username=bibashthapa143&theme=tokyonight&hide_border=false&layout=compact)
 
 ## 🏆 GitHub Trophies
