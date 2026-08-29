@@ -1,24 +1,56 @@
-# 💫 About Me:
-I'm Bibash, currently pursuing my studies at Tribhuvan University (TU). I'm in the process of building a strong foundation in software development — learning core programming concepts, exploring new tools, and working on small projects to apply what I learn.<br><br>🎓 Student at Tribhuvan University<br>🌱 Currently strengthening my fundamentals in programming and web technologies<br>🔭 Working on personal projects to practice and learn by building<br>💬 Open to learning from and collaborating with other student developers<br>📫 Reach me at bibashthapa1432@gmail.com<br>
+<div align="center">
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=26&pause=1000&color=BB9AF7&center=true&vCenter=true&width=600&lines=Hi+%F0%9F%91%8B%2C+I'm+Bibash;BCA+Student+at+TU;Building+Projects+to+Learn" alt="Typing SVG" />
+<br/>
+</div>
+<br/>
 
-## 🌐 Socials:
-[![Discord](https://img.shields.io/badge/Discord-%237289DA.svg?logo=discord&logoColor=white)](https://discord.gg/ja_mes001_95837)
+## ⟢ About Me
+I'm Bibash, currently pursuing my studies at Tribhuvan University (TU). I'm in the process of building a strong foundation in software development — learning core programming concepts, exploring new tools, and working on small projects to apply what I learn.
+```
+🎓  Student at Tribhuvan University
+🌱  Currently strengthening my fundamentals in programming and web technologies
+🔭  Working on personal projects to practice and learn by building
+💬  Open to learning from and collaborating with other student developers
+📫  Reach me at bibashthapa1432@gmail.com
+```
+<br/>
 
-# 💻 Tech Stack:
-![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white) ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white) ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white) ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![Windows Terminal](https://img.shields.io/badge/Windows%20Terminal-%234D4D4D.svg?style=for-the-badge&logo=windows-terminal&logoColor=white) ![PowerShell](https://img.shields.io/badge/PowerShell-%235391FE.svg?style=for-the-badge&logo=powershell&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white) ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white) ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+## ⟢ Connect
+<p align="left">
+<a href="https://discord.gg/ja_mes001_95837" target="_blank">
+<img src="https://img.shields.io/badge/Discord-%237289DA.svg?style=for-the-badge&logo=discord&logoColor=white" />
+</a>
+</p>
+<br/>
 
-# 📊 GitHub Stats:
-![](https://github-readme-stats-nine-gamma-90.vercel.app/api?username=bibashthapa143&theme=tokyonight&hide_border=false)<br/>
-![](https://streak-stats.demolab.com/?user=bibashthapa143&background=1A1B27&border=414868&stroke=BB9AF7&ring=BB9AF7&fire=FF9E64&currStreakLabel=BB9AF7&sideLabels=A9B1D6&dates=787C99&currStreakNum=C0CAF5&sideNums=C0CAF5&hide_border=false)<br/>
-![](https://github-readme-stats-nine-gamma-90.vercel.app/api/top-langs/?username=bibashthapa143&theme=tokyonight&hide_border=false&layout=compact)
+## ⟢ Tech Stack
+<p align="left">
+<img src="https://skillicons.dev/icons?i=c,cpp,java,py,html,css,ts,js,nodejs,nextjs,vercel,windows,git" />
+</p>
+<br/>
 
-## 📈 Contribution Graph
-![](https://github-readme-activity-graph.vercel.app/graph?username=bibashthapa143&theme=tokyo-night&hide_border=false)
+## ⟢ GitHub Stats
+<div align="center">
+<img src="https://streak-stats.demolab.com/?user=bibashthapa143&background=1A1B27&border=414868&stroke=BB9AF7&ring=BB9AF7&fire=FF9E64&currStreakLabel=BB9AF7&sideLabels=A9B1D6&dates=787C99&currStreakNum=C0CAF5&sideNums=C0CAF5&hide_border=false" />
+<br>
+<img src="https://github-readme-stats-nine-gamma-90.vercel.app/api/top-langs/?username=bibashthapa143&theme=tokyonight&hide_border=false&layout=compact" />
+</div>
+<br/>
 
-## 🐍 Contribution Snake
-![](https://raw.githubusercontent.com/bibashthapa143/bibashthapa143/output/github-contribution-grid-snake-dark.svg)
+## ⟢ Activity Summary
+<div align="center">
+<img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=bibashthapa143&theme=tokyonight" />
+<img src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=bibashthapa143&theme=tokyonight" />
+<img src="https://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=bibashthapa143&theme=tokyonight&utcOffset=5.75" />
+</div>
+<br/>
 
-### ✍️ Random Dev Quote
-![](https://quotes-github-readme.vercel.app/api?type=horizontal&theme=radical)
 
-<!-- Proudly created with GPRM ( https://gprm.itsvg.in ) -->
+
+## ⟢ Quote of the Day
+<div align="center">
+
+![Random Dev Quote](https://quotes-github-readme.vercel.app/api?type=horizontal&theme=radical)
+
+</div>
+<br/>
