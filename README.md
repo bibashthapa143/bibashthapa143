@@ -7,14 +7,14 @@
 ## ⟢ Connect
 <p align="left">
 <a href="https://discord.gg/ja_mes001_95837" target="_blank">
-<img src="https://img.shields.io/badge/Discord-%237289DA.svg?style=for-the-badge&logo=discord&logoColor=white" />
+<img src="https://raw.githubusercontent.com/bibashthapa143/bibashthapa143/main/assets/connect-pulse.svg" />
 </a>
 </p>
 <br/>
 
 ## ⟢ Tech Stack
 <p align="left">
-<img src="https://skillicons.dev/icons?i=c,cpp,java,py,html,css,ts,js,nodejs,nextjs,vercel,windows,git" />
+<img src="https://raw.githubusercontent.com/bibashthapa143/bibashthapa143/main/assets/techstack-fadein-float.svg" />
 </p>
 <br/>
 
