@@ -4,15 +4,17 @@
 </div>
 <br/>
 
-## ⟢ About Me
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:1A1B27,100:BB9AF7&height=90&section=header&text=About%20Me&fontSize=32&fontColor=C0CAF5&animation=fadeIn&fontAlignY=38" width="100%"/>
+
 I'm Bibash, currently pursuing my studies at Tribhuvan University (TU). I'm in the process of building a strong foundation in software development — learning core programming concepts, exploring new tools, and working on small projects to apply what I learn.
-```
-🎓  Student at Tribhuvan University
-🌱  Currently strengthening my fundamentals in programming and web technologies
-🔭  Working on personal projects to practice and learn by building
-💬  Open to learning from and collaborating with other student developers
-📫  Reach me at bibashthapa1432@gmail.com
-```
+
+<div align="center">
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=16&pause=1500&color=BB9AF7&center=true&vCenter=true&multiline=true&repeat=false&width=700&height=140&lines=%F0%9F%8E%93+Student+at+Tribhuvan+University;%F0%9F%8C%B1+Strengthening+my+fundamentals+in+programming+%26+web+technologies;%F0%9F%94%AD+Working+on+personal+projects+to+practice+and+learn+by+building;%F0%9F%92%AC+Open+to+learning+from+and+collaborating+with+other+student+devs;%F0%9F%93%AB+Reach+me+at+bibashthapa1432%40gmail.com" alt="About Bullets" />
+</div>
+
+<div align="right">
+<img src="https://raw.githubusercontent.com/abhisheknaiidu/abhisheknaiidu/master/wave.gif" width="50">
+</div>
 <br/>
 
 ## ⟢ Connect
@@ -44,8 +46,6 @@ I'm Bibash, currently pursuing my studies at Tribhuvan University (TU). I'm in t
 <img src="https://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=bibashthapa143&theme=tokyonight&utcOffset=5.75" />
 </div>
 <br/>
-
-
 
 ## ⟢ Quote of the Day
 <div align="center">
