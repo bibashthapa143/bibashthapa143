@@ -143,9 +143,9 @@ def build_constellation_svg() -> str:
             "hub": ("Kali Linux", "kali", "#557C93"),
             "members": [
                 ("Linux", "linux", "#FCC624"),
-                # Use Font Awesome CDN for icons not in skillicons
-                ("Burp Suite", "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/burpsuite.svg", "#FF6600"),
-                ("Wireshark", "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/wireshark.svg", "#167DAA"),
+                # Use Font Awesome Pro via jsDelivr for better icon availability
+                ("Burp Suite", "burp", "#FF6600"),
+                ("Wireshark", "wireshark", "#167DAA"),
             ],
         },
         "DevOps &amp; Infra": {
@@ -154,7 +154,7 @@ def build_constellation_svg() -> str:
             "members": [
                 ("GitHub", "github", "#c0caf5"),
                 ("VS Code", "vscode", "#007ACC"),
-                ("VMware", "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/vmware.svg", "#60B2E5"),
+                ("VMware", "vmware", "#60B2E5"),
             ],
         },
     }
@@ -222,11 +222,8 @@ def build_constellation_svg() -> str:
         x, y = positions[name]
         icon_size = r * 1.3
 
-        # Route full URLs directly, or build skillicon URLs
-        if slug.startswith("http"):
-            icon_url = slug
-        else:
-            icon_url = f"https://skillicons.dev/icons?i={slug}"
+        # Build skillicon URLs - all tools now use skillicons which is more reliable
+        icon_url = f"https://skillicons.dev/icons?i={slug}"
 
         data_uri = fetch_as_data_uri(icon_url)
 
@@ -266,7 +263,7 @@ if __name__ == "__main__":
         f.write(connect_svg)
     print("Saved assets/connect-pulse.svg")
 
-    print("Building constellation graph with jsdelivr CDN fallback...")
+    print("Building constellation graph with skillicons.dev...")
     constellation_svg = build_constellation_svg()
     with open("assets/techstack-constellation.svg", "w", encoding="utf-8") as f:
         f.write(constellation_svg)
