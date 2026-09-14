@@ -1,17 +1,6 @@
-"""
-Fetches real icons from skillicons.dev + img.shields.io, converts them to
-base64 data URIs, and embeds them into self-contained animated SVGs.
-
-Usage:
-    pip install requests
-    python build_icons.py
-
-Outputs:
-    techstack-fadein-float.svg
-    connect-pulse.svg
-"""
-
 import base64
+import math
+import os
 import re
 import requests
 
@@ -84,7 +73,6 @@ def build_connect_svg() -> str:
     natural_w, natural_h = get_svg_dimensions(raw)
     data_uri = to_data_uri(raw)
 
-    # scale to a target height, keep the real aspect ratio
     target_h = 32
     scale = target_h / natural_h
     img_w = natural_w * scale
@@ -111,56 +99,56 @@ def build_connect_svg() -> str:
 
 
 def build_constellation_svg() -> str:
-    import math
-
-    # Each cluster: hub name -> (slug, color), members: name -> (slug, color)
+    # Restructured 4 Clusters: Languages, Web, Cybersecurity, and Tools
     clusters = {
         "Languages": {
-            "center": (160, 130),
-            "hub": ("C", "c", "#5C6BC0"),
+            "center": (180, 130),
+            "hub": ("Python", "py", "#3776AB"),
             "members": [
+                ("C", "c", "#5C6BC0"),
                 ("C++", "cpp", "#00599C"),
                 ("Java", "java", "#EA2D2E"),
-                ("Py", "py", "#3776AB"),
             ],
         },
-        "Web": {
+        "Web Stack": {
             "center": (600, 130),
-            "hub": ("HTML", "html", "#E34F26"),
+            "hub": ("React", "react", "#61DAFB"),
             "members": [
+                ("HTML", "html", "#E34F26"),
                 ("CSS", "css", "#1572B6"),
                 ("JS", "js", "#F7DF1E"),
                 ("TS", "ts", "#3178C6"),
-            ],
-        },
-        "Runtime": {
-            "center": (600, 380),
-            "hub": ("Node", "nodejs", "#339933"),
-            "members": [
+                ("Node", "nodejs", "#339933"),
                 ("Next", "nextjs", "#c0caf5"),
-                ("Vercel", "vercel", "#c0caf5"),
+                ("Postgres", "postgres", "#4169E1"),
             ],
         },
-        "Tools": {
-            "center": (160, 380),
+        "Cybersecurity": {
+            "center": (180, 390),
+            "hub": ("Kali", "kali", "#557C93"),
+            "members": [
+                ("Linux", "linux", "#FCC624"),
+                ("Wireshark", "wireshark", "#167DAA"),
+            ],
+        },
+        "Tools & Infra": {
+            "center": (600, 390),
             "hub": ("Git", "git", "#F05032"),
             "members": [
                 ("VSCode", "vscode", "#007ACC"),
-                ("Linux", "linux", "#FCC624"),
-                ("Windows", "windows", "#00A4EF"),
+                ("GitHub", "github", "#c0caf5"),
                 ("Figma", "figma", "#F24E1E"),
-                ("GHPages", "github", "#c0caf5"),
             ],
         },
     }
 
-    W, H = 760, 510
-    hub_r, member_r, member_radius = 24, 16, 78
+    W, H = 780, 530
+    hub_r, member_r, member_radius = 22, 16, 75
 
-    positions = {}   # name -> (x, y)
-    node_info = {}   # name -> (slug, color, radius, is_hub)
+    positions = {}
+    node_info = {}
     intra_edges = []
-    hub_names = {}   # cluster_key -> hub name
+    hub_names = {}
 
     for key, c in clusters.items():
         ccx, ccy = c["center"]
@@ -178,13 +166,12 @@ def build_constellation_svg() -> str:
             node_info[name] = (slug, color, member_r, False)
             intra_edges.append((hub_name, name))
 
-    # bridges between cluster hubs / cross-cluster ties
+    # Clean, non-intersecting cross-domain ties
     bridge_edges = [
-        (hub_names["Tools"], hub_names["Languages"]),
-        (hub_names["Tools"], hub_names["Web"]),
-        (hub_names["Tools"], hub_names["Runtime"]),
-        ("JS", hub_names["Runtime"]),
-        ("Figma", hub_names["Web"]),
+        (hub_names["Languages"], hub_names["Cybersecurity"]),  # Python -> Security Automation
+        (hub_names["Languages"], hub_names["Web Stack"]),      # JS/TS -> Full Stack
+        (hub_names["Tools & Infra"], hub_names["Web Stack"]),  # Git -> Web Stack
+        (hub_names["Tools & Infra"], hub_names["Cybersecurity"]), # Git -> Security Labs
     ]
 
     parts = [
@@ -223,8 +210,13 @@ def build_constellation_svg() -> str:
             f'width="{icon_size:.1f}" height="{icon_size:.1f}" href="{data_uri}"/>'
         )
 
-    # cluster labels
-    label_offsets = {"Languages": (-40, -95), "Web": (-20, -95), "Runtime": (-45, 130), "Tools": (-25, 130)}
+    # Cluster headers
+    label_offsets = {
+        "Languages": (-35, -95),
+        "Web Stack": (-35, -95),
+        "Cybersecurity": (-45, 125),
+        "Tools & Infra": (-45, 125),
+    }
     for key, c in clusters.items():
         ccx, ccy = c["center"]
         dx, dy = label_offsets[key]
@@ -235,7 +227,6 @@ def build_constellation_svg() -> str:
 
 
 if __name__ == "__main__":
-    import os
     os.makedirs("assets", exist_ok=True)
 
     print("Fetching tech stack icons...")
@@ -250,7 +241,7 @@ if __name__ == "__main__":
         f.write(connect_svg)
     print("Saved assets/connect-pulse.svg")
 
-    print("Building constellation graph with real icons...")
+    print("Building balanced constellation graph...")
     constellation_svg = build_constellation_svg()
     with open("assets/techstack-constellation.svg", "w") as f:
         f.write(constellation_svg)
