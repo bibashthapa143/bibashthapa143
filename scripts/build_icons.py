@@ -143,9 +143,9 @@ def build_constellation_svg() -> str:
             "hub": ("Kali Linux", "kali", "#557C93"),
             "members": [
                 ("Linux", "linux", "#FCC624"),
-                # Use Shields.io badge service as fallback for tools unsupported by skillicons
-                ("Burp Suite", "https://img.shields.io/badge/Burp-FF6600?style=flat&logo=burp&logoColor=white", "#FF6600"),
-                ("Wireshark", "https://img.shields.io/badge/Wireshark-167DAA?style=flat&logo=wireshark&logoColor=white", "#167DAA"),
+                # Use Font Awesome CDN for icons not in skillicons
+                ("Burp Suite", "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/burpsuite.svg", "#FF6600"),
+                ("Wireshark", "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/wireshark.svg", "#167DAA"),
             ],
         },
         "DevOps &amp; Infra": {
@@ -154,7 +154,7 @@ def build_constellation_svg() -> str:
             "members": [
                 ("GitHub", "github", "#c0caf5"),
                 ("VS Code", "vscode", "#007ACC"),
-                ("VMware", "https://img.shields.io/badge/VMware-60B2E5?style=flat&logo=vmware&logoColor=white", "#60B2E5"),
+                ("VMware", "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/vmware.svg", "#60B2E5"),
             ],
         },
     }
@@ -266,7 +266,7 @@ if __name__ == "__main__":
         f.write(connect_svg)
     print("Saved assets/connect-pulse.svg")
 
-    print("Building constellation graph with Shields.io badge fallback...")
+    print("Building constellation graph with jsdelivr CDN fallback...")
     constellation_svg = build_constellation_svg()
     with open("assets/techstack-constellation.svg", "w", encoding="utf-8") as f:
         f.write(constellation_svg)
