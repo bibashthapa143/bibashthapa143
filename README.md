@@ -14,9 +14,8 @@
 
 ## ⟢ Tech Stack
 <p align="left">
-<img src="https://raw.githubusercontent.com/bibashthapa143/bibashthapa143/main/assets/techstack-constellation.svg" />
+  <img src="https://raw.githubusercontent.com/bibashthapa143/bibashthapa143/main/assets/techstack-constellation.svg" />
 </p>
-<br/>
 
 ## ⟢ GitHub Stats
 <div align="center">
