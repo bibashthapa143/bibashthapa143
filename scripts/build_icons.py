@@ -111,66 +111,124 @@ def build_connect_svg() -> str:
 
 
 def build_constellation_svg() -> str:
-    # name -> (skillicons slug, x, y, brand color, node radius)
-    nodes = {
-        "Git":     ("git",     350, 165, "#F05032", 26),
-        "C":       ("c",        70,  55, "#5C6BC0", 18),
-        "C++":     ("cpp",     150,  35, "#00599C", 18),
-        "Java":    ("java",    250,  42, "#EA2D2E", 18),
-        "Py":      ("py",      340,  32, "#3776AB", 18),
-        "HTML":    ("html",    440,  45, "#E34F26", 18),
-        "CSS":     ("css",     530,  65, "#1572B6", 18),
-        "TS":      ("ts",      600, 110, "#3178C6", 18),
-        "JS":      ("js",      610, 195, "#F7DF1E", 18),
-        "Node":    ("nodejs",  545, 265, "#339933", 18),
-        "Next":    ("nextjs",  450, 295, "#c0caf5", 18),
-        "Vercel":  ("vercel",  350, 305, "#c0caf5", 18),
-        "Windows": ("windows", 200, 280, "#00A4EF", 18),
+    import math
+
+    # Each cluster: hub name -> (slug, color), members: name -> (slug, color)
+    clusters = {
+        "Languages": {
+            "center": (160, 130),
+            "hub": ("C", "c", "#5C6BC0"),
+            "members": [
+                ("C++", "cpp", "#00599C"),
+                ("Java", "java", "#EA2D2E"),
+                ("Py", "py", "#3776AB"),
+            ],
+        },
+        "Web": {
+            "center": (600, 130),
+            "hub": ("HTML", "html", "#E34F26"),
+            "members": [
+                ("CSS", "css", "#1572B6"),
+                ("JS", "js", "#F7DF1E"),
+                ("TS", "ts", "#3178C6"),
+            ],
+        },
+        "Runtime": {
+            "center": (600, 380),
+            "hub": ("Node", "nodejs", "#339933"),
+            "members": [
+                ("Next", "nextjs", "#c0caf5"),
+                ("Vercel", "vercel", "#c0caf5"),
+            ],
+        },
+        "Tools": {
+            "center": (160, 380),
+            "hub": ("Git", "git", "#F05032"),
+            "members": [
+                ("VSCode", "vscode", "#007ACC"),
+                ("Linux", "linux", "#FCC624"),
+                ("Windows", "windows", "#00A4EF"),
+                ("Figma", "figma", "#F24E1E"),
+                ("GHPages", "github", "#c0caf5"),
+            ],
+        },
     }
 
-    hub_edges = [("Git", n) for n in nodes if n != "Git"]
-    accent_edges = [
-        ("C", "C++"), ("HTML", "CSS"), ("JS", "TS"),
-        ("JS", "Node"), ("Node", "Next"), ("Next", "Vercel"),
+    W, H = 760, 510
+    hub_r, member_r, member_radius = 24, 16, 78
+
+    positions = {}   # name -> (x, y)
+    node_info = {}   # name -> (slug, color, radius, is_hub)
+    intra_edges = []
+    hub_names = {}   # cluster_key -> hub name
+
+    for key, c in clusters.items():
+        ccx, ccy = c["center"]
+        hub_name, hub_slug, hub_color = c["hub"]
+        positions[hub_name] = (ccx, ccy)
+        node_info[hub_name] = (hub_slug, hub_color, hub_r, True)
+        hub_names[key] = hub_name
+
+        n = len(c["members"])
+        for i, (name, slug, color) in enumerate(c["members"]):
+            angle = (2 * math.pi * i / n) - math.pi / 2
+            x = ccx + member_radius * math.cos(angle)
+            y = ccy + member_radius * math.sin(angle)
+            positions[name] = (x, y)
+            node_info[name] = (slug, color, member_r, False)
+            intra_edges.append((hub_name, name))
+
+    # bridges between cluster hubs / cross-cluster ties
+    bridge_edges = [
+        (hub_names["Tools"], hub_names["Languages"]),
+        (hub_names["Tools"], hub_names["Web"]),
+        (hub_names["Tools"], hub_names["Runtime"]),
+        ("JS", hub_names["Runtime"]),
+        ("Figma", hub_names["Web"]),
     ]
 
-    W, H = 700, 340
     parts = [
         f'<svg width="{W}" height="{H}" viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg">',
         f'  <rect x="0" y="0" width="{W}" height="{H}" rx="14" fill="#1a1b27"/>',
     ]
 
-    for a, b in hub_edges:
-        x1, y1 = nodes[a][1], nodes[a][2]
-        x2, y2 = nodes[b][1], nodes[b][2]
-        parts.append(f'  <line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="#414868" stroke-width="1" opacity="0.35"/>')
+    for a, b in intra_edges:
+        x1, y1 = positions[a]
+        x2, y2 = positions[b]
+        parts.append(f'  <line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="#414868" stroke-width="1" opacity="0.4"/>')
 
-    for i, (a, b) in enumerate(accent_edges):
-        x1, y1 = nodes[a][1], nodes[a][2]
-        x2, y2 = nodes[b][1], nodes[b][2]
-        begin = round(i * 0.3, 2)
-        parts.append(f'  <line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="#BB9AF7" stroke-width="1.5" opacity="0.55"/>')
+    for i, (a, b) in enumerate(bridge_edges):
+        x1, y1 = positions[a]
+        x2, y2 = positions[b]
+        begin = round(i * 0.35, 2)
+        parts.append(f'  <line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="#BB9AF7" stroke-width="1.5" opacity="0.55"/>')
         parts.append(f'''  <circle r="3" fill="#BB9AF7">
-    <animateMotion dur="2.4s" begin="{begin}s" repeatCount="indefinite" path="M {x1} {y1} L {x2} {y2}"/>
-    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="2.4s" begin="{begin}s" repeatCount="indefinite"/>
+    <animateMotion dur="2.6s" begin="{begin}s" repeatCount="indefinite" path="M {x1:.1f} {y1:.1f} L {x2:.1f} {y2:.1f}"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="2.6s" begin="{begin}s" repeatCount="indefinite"/>
   </circle>''')
 
-    for name, (slug, x, y, color, r) in nodes.items():
-        icon_url = f"https://skillicons.dev/icons?i={slug}"
-        data_uri = fetch_as_data_uri(icon_url)
-        icon_size = r * 1.5
-        is_hub = name == "Git"
+    for name, (slug, color, r, is_hub) in node_info.items():
+        x, y = positions[name]
+        data_uri = fetch_as_data_uri(f"https://skillicons.dev/icons?i={slug}")
+        icon_size = r * 1.4
         if is_hub:
-            glow_r0, glow_r1 = r + 6, r + 16
-            parts.append(f'''  <circle cx="{x}" cy="{y}" r="{glow_r0}" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.6">
+            glow_r0, glow_r1 = r + 6, r + 15
+            parts.append(f'''  <circle cx="{x:.1f}" cy="{y:.1f}" r="{glow_r0}" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.6">
     <animate attributeName="r" values="{glow_r0};{glow_r1};{glow_r0}" dur="2.5s" repeatCount="indefinite"/>
     <animate attributeName="opacity" values="0.6;0;0.6" dur="2.5s" repeatCount="indefinite"/>
   </circle>''')
-        parts.append(f'  <circle cx="{x}" cy="{y}" r="{r}" fill="#24283b" stroke="{color}" stroke-width="2"/>')
+        parts.append(f'  <circle cx="{x:.1f}" cy="{y:.1f}" r="{r}" fill="#24283b" stroke="{color}" stroke-width="2"/>')
         parts.append(
             f'  <image x="{x - icon_size/2:.1f}" y="{y - icon_size/2:.1f}" '
             f'width="{icon_size:.1f}" height="{icon_size:.1f}" href="{data_uri}"/>'
         )
+
+    # cluster labels
+    label_offsets = {"Languages": (-40, -95), "Web": (-20, -95), "Runtime": (-45, 130), "Tools": (-25, 130)}
+    for key, c in clusters.items():
+        ccx, ccy = c["center"]
+        dx, dy = label_offsets[key]
+        parts.append(f'  <text x="{ccx+dx:.1f}" y="{ccy+dy:.1f}" font-family="Fira Code, Consolas, monospace" font-size="13" font-weight="bold" fill="#787c99">{key}</text>')
 
     parts.append('</svg>')
     return "\n".join(parts) + "\n"
