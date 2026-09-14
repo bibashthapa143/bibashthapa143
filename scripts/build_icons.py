@@ -110,6 +110,72 @@ def build_connect_svg() -> str:
 '''
 
 
+def build_constellation_svg() -> str:
+    # name -> (skillicons slug, x, y, brand color, node radius)
+    nodes = {
+        "Git":     ("git",     350, 165, "#F05032", 26),
+        "C":       ("c",        70,  55, "#5C6BC0", 18),
+        "C++":     ("cpp",     150,  35, "#00599C", 18),
+        "Java":    ("java",    250,  42, "#EA2D2E", 18),
+        "Py":      ("py",      340,  32, "#3776AB", 18),
+        "HTML":    ("html",    440,  45, "#E34F26", 18),
+        "CSS":     ("css",     530,  65, "#1572B6", 18),
+        "TS":      ("ts",      600, 110, "#3178C6", 18),
+        "JS":      ("js",      610, 195, "#F7DF1E", 18),
+        "Node":    ("nodejs",  545, 265, "#339933", 18),
+        "Next":    ("nextjs",  450, 295, "#c0caf5", 18),
+        "Vercel":  ("vercel",  350, 305, "#c0caf5", 18),
+        "Windows": ("windows", 200, 280, "#00A4EF", 18),
+    }
+
+    hub_edges = [("Git", n) for n in nodes if n != "Git"]
+    accent_edges = [
+        ("C", "C++"), ("HTML", "CSS"), ("JS", "TS"),
+        ("JS", "Node"), ("Node", "Next"), ("Next", "Vercel"),
+    ]
+
+    W, H = 700, 340
+    parts = [
+        f'<svg width="{W}" height="{H}" viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg">',
+        f'  <rect x="0" y="0" width="{W}" height="{H}" rx="14" fill="#1a1b27"/>',
+    ]
+
+    for a, b in hub_edges:
+        x1, y1 = nodes[a][1], nodes[a][2]
+        x2, y2 = nodes[b][1], nodes[b][2]
+        parts.append(f'  <line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="#414868" stroke-width="1" opacity="0.35"/>')
+
+    for i, (a, b) in enumerate(accent_edges):
+        x1, y1 = nodes[a][1], nodes[a][2]
+        x2, y2 = nodes[b][1], nodes[b][2]
+        begin = round(i * 0.3, 2)
+        parts.append(f'  <line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="#BB9AF7" stroke-width="1.5" opacity="0.55"/>')
+        parts.append(f'''  <circle r="3" fill="#BB9AF7">
+    <animateMotion dur="2.4s" begin="{begin}s" repeatCount="indefinite" path="M {x1} {y1} L {x2} {y2}"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="2.4s" begin="{begin}s" repeatCount="indefinite"/>
+  </circle>''')
+
+    for name, (slug, x, y, color, r) in nodes.items():
+        icon_url = f"https://skillicons.dev/icons?i={slug}"
+        data_uri = fetch_as_data_uri(icon_url)
+        icon_size = r * 1.5
+        is_hub = name == "Git"
+        if is_hub:
+            glow_r0, glow_r1 = r + 6, r + 16
+            parts.append(f'''  <circle cx="{x}" cy="{y}" r="{glow_r0}" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.6">
+    <animate attributeName="r" values="{glow_r0};{glow_r1};{glow_r0}" dur="2.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.6;0;0.6" dur="2.5s" repeatCount="indefinite"/>
+  </circle>''')
+        parts.append(f'  <circle cx="{x}" cy="{y}" r="{r}" fill="#24283b" stroke="{color}" stroke-width="2"/>')
+        parts.append(
+            f'  <image x="{x - icon_size/2:.1f}" y="{y - icon_size/2:.1f}" '
+            f'width="{icon_size:.1f}" height="{icon_size:.1f}" href="{data_uri}"/>'
+        )
+
+    parts.append('</svg>')
+    return "\n".join(parts) + "\n"
+
+
 if __name__ == "__main__":
     import os
     os.makedirs("assets", exist_ok=True)
@@ -125,3 +191,9 @@ if __name__ == "__main__":
     with open("assets/connect-pulse.svg", "w") as f:
         f.write(connect_svg)
     print("Saved assets/connect-pulse.svg")
+
+    print("Building constellation graph with real icons...")
+    constellation_svg = build_constellation_svg()
+    with open("assets/techstack-constellation.svg", "w") as f:
+        f.write(constellation_svg)
+    print("Saved assets/techstack-constellation.svg")
