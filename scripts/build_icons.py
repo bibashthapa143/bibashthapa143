@@ -21,9 +21,14 @@ DISCORD_BADGE_URL = (
 # --- Utility Functions ---
 
 def fetch(url: str) -> bytes:
-    resp = requests.get(url, timeout=15)
-    resp.raise_for_status()
-    return resp.content
+    try:
+        resp = requests.get(url, timeout=15)
+        resp.raise_for_status()
+        return resp.content
+    except requests.exceptions.RequestException as e:
+        print(f"Warning: Failed to fetch {url}: {e}")
+        # Return a minimal valid SVG as fallback
+        return b'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="#666"/></svg>'
 
 
 def to_data_uri(content: bytes, content_type: str = "image/svg+xml") -> str:
