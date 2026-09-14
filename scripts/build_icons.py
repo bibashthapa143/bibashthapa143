@@ -5,8 +5,7 @@ import os
 import re
 import requests
 
-# 1. Base Tech Stack Icon List (Base Icons for build_techstack_svg only)
-# These are kept separate from the complex graph definition.
+# 1. Base Tech Stack Icon List (for floating header row)
 TECH_ICONS = [
     "c", "cpp", "java", "py", "html", "css", "ts", "js",
     "nodejs", "nextjs", "vercel", "windows", "git",
@@ -33,7 +32,7 @@ def to_data_uri(content: bytes, content_type: str = "image/svg+xml") -> str:
 
 
 def fetch_as_data_uri(url: str) -> str:
-    # Safely escape ampersands in Data URIs for XML/SVG standards
+    # Safely escape ampersands in Data URIs for XML/SVG compliance
     return html.escape(to_data_uri(fetch(url)))
 
 
@@ -53,7 +52,7 @@ def get_svg_dimensions(svg_bytes: bytes) -> tuple[float, float]:
 # --- SVG Builders ---
 
 def build_techstack_svg() -> str:
-    """Builds a simple horizontal row of floating tech icons."""
+    """Builds a horizontal row of floating tech icons."""
     icon_size = 40
     gap = 14
     x = 10
@@ -110,8 +109,7 @@ def build_connect_svg() -> str:
 
 
 def build_constellation_svg() -> str:
-    """Builds the complex, animated network constellation graph."""
-    # Balanced 4-Cluster Definitions: Re-anchored into a 2x2 grid with new style spacing.
+    """Builds the animated network constellation graph."""
     clusters = {
         "Languages": {
             "center": (200, 150),
@@ -140,22 +138,22 @@ def build_constellation_svg() -> str:
             "hub": ("Kali Linux", "kali", "#557C93"),
             "members": [
                 ("Linux", "linux", "#FCC624"),
-                ("Burp Suite", "burpsuite", "#FF6600"),  # Skillicons slug fixed.
-                ("Wireshark", "wireshark", "#167DAA"), # (Slug needs verification from skillicons.dev or use a different icon).
+                # Simple Icons URLs used directly for tools unsupported by skillicons
+                ("Burp Suite", "https://cdn.simpleicons.org/burpsuite/FF6600", "#FF6600"),
+                ("Wireshark", "https://cdn.simpleicons.org/wireshark/167DAA", "#167DAA"),
             ],
         },
-        "DevOps &amp; Infra": { # Title escaped for XML compliance (& -> &amp;)
+        "DevOps &amp; Infra": {
             "center": (620, 420),
             "hub": ("Git", "git", "#F05032"),
             "members": [
                 ("GitHub", "github", "#c0caf5"),
                 ("VS Code", "vscode", "#007ACC"),
-                ("VMware", "windows", "#FCC624"), # (VMware skillicons slug might need verification, using 'windows' as placeholder).
+                ("VMware", "https://cdn.simpleicons.org/vmware/60B2E5", "#60B2E5"),
             ],
         },
     }
 
-    # Dimensions and radial logic
     W, H = 820, 560
     hub_r, member_r, member_radius = 24, 16, 85
 
@@ -164,7 +162,6 @@ def build_constellation_svg() -> str:
     intra_edges = []
     hub_names = {}
 
-    # Calculate radial positions and store node info
     for key, c in clusters.items():
         ccx, ccy = c["center"]
         hub_name, hub_slug, hub_color = c["hub"]
@@ -174,7 +171,6 @@ def build_constellation_svg() -> str:
 
         n = len(c["members"])
         for i, (name, slug, color) in enumerate(c["members"]):
-            # Angle offset ensures clean circular distribution
             angle = (2 * math.pi * i / n) - (math.pi / 2)
             x = ccx + member_radius * math.cos(angle)
             y = ccy + member_radius * math.sin(angle)
@@ -182,15 +178,12 @@ def build_constellation_svg() -> str:
             node_info[name] = (slug, color, member_r, False)
             intra_edges.append((hub_name, name))
 
-    # Curved bridges (paths) between major domain hubs for the "Redesign in new style" request.
-    # Format: (StartNodeName, EndNodeName, ControlPointX, ControlPointY)
-    # The curved paths bow outward gracefully.
     curved_bridges = [
-        ("Python", "React", 410, 100),       # Top curve
-        ("Python", "Kali Linux", 120, 285),   # Left curve
-        ("React", "Git", 700, 285),          # Right curve
-        ("Kali Linux", "Git", 410, 470),      # Bottom curve
-        ("Python", "Git", 410, 285),         # Center diagonal bridge (curved)
+        ("Python", "React", 410, 100),
+        ("Python", "Kali Linux", 120, 285),
+        ("React", "Git", 700, 285),
+        ("Kali Linux", "Git", 410, 470),
+        ("Python", "Git", 410, 285),
     ]
 
     parts = [
@@ -198,23 +191,15 @@ def build_constellation_svg() -> str:
         f'  <rect x="0" y="0" width="{W}" height="{H}" rx="16" fill="#1a1b27"/>',
     ]
 
-    # --- Render Background Structure ---
-
-    # Render cluster ambient background rings and category headers
     for key, c in clusters.items():
         ccx, ccy = c["center"]
-        # Ambient Dotted Ring
         parts.append(f'  <circle cx="{ccx}" cy="{ccy}" r="{member_radius + 22}" fill="none" stroke="#24283b" stroke-width="1.5" stroke-dasharray="4 4"/>')
-        # Tokyo Night styled Headers
         parts.append(f'  <text x="{ccx}" y="{ccy - member_radius - 30}" font-family="Fira Code, Consolas, monospace" font-size="13" font-weight="bold" fill="#7aa2f7" text-anchor="middle">{key}</text>')
 
-    # Render static intra-cluster (internal) lines
     for a, b in intra_edges:
         x1, y1 = positions[a]
         x2, y2 = positions[b]
         parts.append(f'  <line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="#414868" stroke-width="1.2" opacity="0.5"/>')
-
-    # --- Render Smooth Inter-Cluster Bridges & Pulse Animations ---
 
     for i, (src, dst, cx, cy) in enumerate(curved_bridges):
         x1, y1 = positions[src]
@@ -222,26 +207,24 @@ def build_constellation_svg() -> str:
         path_d = f"M {x1:.1f} {y1:.1f} Q {cx:.1f} {cy:.1f} {x2:.1f} {y2:.1f}"
         begin = round(i * 0.4, 2)
 
-        # Draw curved line path
         parts.append(f'  <path d="{path_d}" fill="none" stroke="#bb9af7" stroke-width="1.5" opacity="0.45" stroke-dasharray="5 5"/>')
-        # Animated pulse moving along the curve
         parts.append(f'''  <circle r="3.5" fill="#7dcfff">
     <animateMotion dur="3s" begin="{begin}s" repeatCount="indefinite" path="{path_d}"/>
     <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3s" begin="{begin}s" repeatCount="indefinite"/>
   </circle>''')
 
-    # --- Render Nodes & Embedded Icons ---
-
     for name, (slug, color, r, is_hub) in node_info.items():
         x, y = positions[name]
         icon_size = r * 1.3
-        
-        # Skillicons slug validation: 'wireshark' is not supported, 'github', 'windows' are placeholders
-        # Replace these placeholders with actual supported slugs from skillicons.dev.
-        # For now, embedding will fail for invalid slugs.
-        data_uri = fetch_as_data_uri(f"https://skillicons.dev/icons?i={slug}")
 
-        # Render Glowing Rings for Cluster Hubs
+        # Route full URLs directly, or build skillicon URLs
+        if slug.startswith("http"):
+            icon_url = slug
+        else:
+            icon_url = f"https://skillicons.dev/icons?i={slug}"
+
+        data_uri = fetch_as_data_uri(icon_url)
+
         if is_hub:
             glow_r0, glow_r1 = r + 6, r + 14
             parts.append(f'''  <circle cx="{x:.1f}" cy="{y:.1f}" r="{glow_r0}" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.6">
@@ -249,16 +232,11 @@ def build_constellation_svg() -> str:
     <animate attributeName="opacity" values="0.6;0.1;0.6" dur="2.8s" repeatCount="indefinite"/>
   </circle>''')
 
-        # Node static circle background
         parts.append(f'  <circle cx="{x:.1f}" cy="{y:.1f}" r="{r}" fill="#1a1b27" stroke="{color}" stroke-width="2"/>')
-        
-        # Embed the Base64 icon image
         parts.append(
             f'  <image x="{x - icon_size/2:.1f}" y="{y - icon_size/2:.1f}" '
             f'width="{icon_size:.1f}" height="{icon_size:.1f}" href="{data_uri}"/>'
         )
-        
-        # Apply neat Fira Code typography for node micro labels
         label_y = y + r + 12
         parts.append(f'  <text x="{x:.1f}" y="{label_y:.1f}" font-family="Fira Code, Consolas, monospace" font-size="9.5" fill="#c0caf5" text-anchor="middle">{name}</text>')
 
@@ -266,7 +244,7 @@ def build_constellation_svg() -> str:
     return "\n".join(parts) + "\n"
 
 
-# --- Main Execution Path ---
+# --- Main Execution ---
 
 if __name__ == "__main__":
     os.makedirs("assets", exist_ok=True)
@@ -283,7 +261,7 @@ if __name__ == "__main__":
         f.write(connect_svg)
     print("Saved assets/connect-pulse.svg")
 
-    print("Building balanced, curved constellation network graph (New Style redesign)...")
+    print("Building constellation graph with Simple Icons fallback...")
     constellation_svg = build_constellation_svg()
     with open("assets/techstack-constellation.svg", "w", encoding="utf-8") as f:
         f.write(constellation_svg)
