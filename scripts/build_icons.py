@@ -1,110 +1,7 @@
-import base64
-import html
-import math
-import os
-import re
-import requests
-
-TECH_ICONS = [
-    "c", "cpp", "java", "py", "html", "css", "ts", "js",
-    "nodejs", "nextjs", "vercel", "windows", "git",
-]
-
-DISCORD_BADGE_URL = (
-    "https://img.shields.io/badge/Discord-%237289DA.svg"
-    "?style=for-the-badge&logo=discord&logoColor=white"
-)
-
-
-def fetch(url: str) -> bytes:
-    resp = requests.get(url, timeout=15)
-    resp.raise_for_status()
-    return resp.content
-
-
-def to_data_uri(content: bytes, content_type: str = "image/svg+xml") -> str:
-    b64 = base64.b64encode(content).decode("utf-8")
-    return f"data:{content_type};base64,{b64}"
-
-
-def fetch_as_data_uri(url: str) -> str:
-    # Safely escape ampersands in Data URIs for XML/SVG standards
-    return html.escape(to_data_uri(fetch(url)))
-
-
-def get_svg_dimensions(svg_bytes: bytes) -> tuple[float, float]:
-    """Extract width/height (or viewBox) from an SVG's root tag."""
-    text = svg_bytes.decode("utf-8", errors="ignore")
-    w_match = re.search(r'width="([\d.]+)"', text)
-    h_match = re.search(r'height="([\d.]+)"', text)
-    if w_match and h_match:
-        return float(w_match.group(1)), float(h_match.group(1))
-    vb_match = re.search(r'viewBox="[\d.\-]+ [\d.\-]+ ([\d.]+) ([\d.]+)"', text)
-    if vb_match:
-        return float(vb_match.group(1)), float(vb_match.group(2))
-    return 200.0, 32.0
-
-
-def build_techstack_svg() -> str:
-    icon_size = 40
-    gap = 14
-    x = 10
-    parts = []
-    for i, icon in enumerate(TECH_ICONS):
-        url = f"https://skillicons.dev/icons?i={icon}"
-        data_uri = fetch_as_data_uri(url)
-        begin = round(i * 0.15, 2)
-        parts.append(f'''  <image x="{x}" y="10" width="{icon_size}" height="{icon_size}"
-    href="{data_uri}" opacity="0">
-    <animate attributeName="opacity" from="0" to="1" begin="{begin}s" dur="0.4s" fill="freeze"/>
-    <animateTransform attributeName="transform" type="translate"
-      values="0 0;0 -8;0 0" dur="2s" begin="{begin}s" repeatCount="indefinite"/>
-  </image>''')
-        x += icon_size + gap
-
-    width = x + 10
-    body = "\n".join(parts)
-    return (
-        f'<svg width="{width}" height="60" viewBox="0 0 {width} 60" '
-        f'xmlns="http://www.w3.org/2000/svg">\n{body}\n</svg>\n'
-    )
-
-
-def build_connect_svg() -> str:
-    raw = fetch(DISCORD_BADGE_URL)
-    natural_w, natural_h = get_svg_dimensions(raw)
-    data_uri = fetch_as_data_uri(DISCORD_BADGE_URL)
-
-    target_h = 32
-    scale = target_h / natural_h
-    img_w = natural_w * scale
-    img_h = target_h
-
-    canvas_w, canvas_h = 240, 70
-    img_x = (canvas_w - img_w) / 2
-    img_y = (canvas_h - img_h) / 2
-
-    ring_w, ring_h = img_w + 20, img_h + 14
-    ring_x, ring_y = img_x - 10, img_y - 7
-
-    return f'''<svg width="{canvas_w}" height="{canvas_h}" viewBox="0 0 {canvas_w} {canvas_h}" xmlns="http://www.w3.org/2000/svg">
-  <rect x="{ring_x:.1f}" y="{ring_y:.1f}" width="{ring_w:.1f}" height="{ring_h:.1f}" rx="6" fill="none" stroke="#7289DA" stroke-width="2" opacity="0.7">
-    <animate attributeName="width" values="{ring_w:.1f};{ring_w+30:.1f};{ring_w:.1f}" dur="2s" repeatCount="indefinite"/>
-    <animate attributeName="height" values="{ring_h:.1f};{ring_h+14:.1f};{ring_h:.1f}" dur="2s" repeatCount="indefinite"/>
-    <animate attributeName="x" values="{ring_x:.1f};{ring_x-15:.1f};{ring_x:.1f}" dur="2s" repeatCount="indefinite"/>
-    <animate attributeName="y" values="{ring_y:.1f};{ring_y-7:.1f};{ring_y:.1f}" dur="2s" repeatCount="indefinite"/>
-    <animate attributeName="opacity" values="0.7;0;0.7" dur="2s" repeatCount="indefinite"/>
-  </rect>
-  <image x="{img_x:.1f}" y="{img_y:.1f}" width="{img_w:.1f}" height="{img_h:.1f}" href="{data_uri}"/>
-</svg>
-'''
-
-
 def build_constellation_svg() -> str:
-    # Cluster labels escaped for XML compliance (& -> &amp;)
     clusters = {
         "Languages": {
-            "center": (180, 130),
+            "center": (190, 140),
             "hub": ("Python", "py", "#3776AB"),
             "members": [
                 ("C", "c", "#5C6BC0"),
@@ -113,7 +10,7 @@ def build_constellation_svg() -> str:
             ],
         },
         "Web Stack": {
-            "center": (600, 130),
+            "center": (610, 140),
             "hub": ("React", "react", "#61DAFB"),
             "members": [
                 ("HTML", "html", "#E34F26"),
@@ -126,15 +23,15 @@ def build_constellation_svg() -> str:
             ],
         },
         "Cybersecurity": {
-            "center": (180, 390),
+            "center": (190, 410),
             "hub": ("Kali", "kali", "#557C93"),
             "members": [
                 ("Linux", "linux", "#FCC624"),
-                ("Wireshark", "wireshark", "#167DAA"),
+                ("BurpSuite", "burpsuite", "#FF6600"),  # Valid skillicon slug
             ],
         },
         "Tools &amp; Infra": {
-            "center": (600, 390),
+            "center": (610, 410),
             "hub": ("Git", "git", "#F05032"),
             "members": [
                 ("VSCode", "vscode", "#007ACC"),
@@ -144,8 +41,8 @@ def build_constellation_svg() -> str:
         },
     }
 
-    W, H = 780, 530
-    hub_r, member_r, member_radius = 22, 16, 75
+    W, H = 800, 560
+    hub_r, member_r, member_radius = 24, 17, 82
 
     positions = {}
     node_info = {}
@@ -161,7 +58,8 @@ def build_constellation_svg() -> str:
 
         n = len(c["members"])
         for i, (name, slug, color) in enumerate(c["members"]):
-            angle = (2 * math.pi * i / n) - math.pi / 2
+            # Angle offset ensures clean circular distribution
+            angle = (2 * math.pi * i / n) - (math.pi / 2)
             x = ccx + member_radius * math.cos(angle)
             y = ccy + member_radius * math.sin(angle)
             positions[name] = (x, y)
@@ -177,72 +75,63 @@ def build_constellation_svg() -> str:
 
     parts = [
         f'<svg width="{W}" height="{H}" viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg">',
-        f'  <rect x="0" y="0" width="{W}" height="{H}" rx="14" fill="#1a1b27"/>',
+        f'  <rect x="0" y="0" width="{W}" height="{H}" rx="16" fill="#1a1b27"/>',
     ]
 
+    # Render intra-cluster connector lines
     for a, b in intra_edges:
         x1, y1 = positions[a]
         x2, y2 = positions[b]
-        parts.append(f'  <line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="#414868" stroke-width="1" opacity="0.4"/>')
+        parts.append(f'  <line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="#414868" stroke-width="1.2" opacity="0.45"/>')
 
+    # Render bridge animated lines
     for i, (a, b) in enumerate(bridge_edges):
         x1, y1 = positions[a]
         x2, y2 = positions[b]
         begin = round(i * 0.35, 2)
-        parts.append(f'  <line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="#BB9AF7" stroke-width="1.5" opacity="0.55"/>')
+        parts.append(f'  <line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="#BB9AF7" stroke-width="1.5" opacity="0.6"/>')
         parts.append(f'''  <circle r="3" fill="#BB9AF7">
     <animateMotion dur="2.6s" begin="{begin}s" repeatCount="indefinite" path="M {x1:.1f} {y1:.1f} L {x2:.1f} {y2:.1f}"/>
     <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="2.6s" begin="{begin}s" repeatCount="indefinite"/>
   </circle>''')
 
+    # Render Nodes & Labels
     for name, (slug, color, r, is_hub) in node_info.items():
         x, y = positions[name]
         data_uri = fetch_as_data_uri(f"https://skillicons.dev/icons?i={slug}")
-        icon_size = r * 1.4
+        icon_size = r * 1.35
+
         if is_hub:
-            glow_r0, glow_r1 = r + 6, r + 15
+            glow_r0, glow_r1 = r + 6, r + 16
             parts.append(f'''  <circle cx="{x:.1f}" cy="{y:.1f}" r="{glow_r0}" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.6">
     <animate attributeName="r" values="{glow_r0};{glow_r1};{glow_r0}" dur="2.5s" repeatCount="indefinite"/>
     <animate attributeName="opacity" values="0.6;0;0.6" dur="2.5s" repeatCount="indefinite"/>
   </circle>''')
+
+        # Node background and border
         parts.append(f'  <circle cx="{x:.1f}" cy="{y:.1f}" r="{r}" fill="#24283b" stroke="{color}" stroke-width="2"/>')
+        
+        # Embedded icon
         parts.append(
             f'  <image x="{x - icon_size/2:.1f}" y="{y - icon_size/2:.1f}" '
             f'width="{icon_size:.1f}" height="{icon_size:.1f}" href="{data_uri}"/>'
         )
+        
+        # Micro text label under node for better readability
+        label_y = y + r + 12
+        parts.append(f'  <text x="{x:.1f}" y="{label_y:.1f}" font-family="Fira Code, Consolas, monospace" font-size="10" fill="#a9b1d6" text-anchor="middle">{name}</text>')
 
+    # Render Cluster Headers
     label_offsets = {
-        "Languages": (-35, -95),
-        "Web Stack": (-35, -95),
-        "Cybersecurity": (-45, 125),
-        "Tools &amp; Infra": (-45, 125),
+        "Languages": (-35, -105),
+        "Web Stack": (-35, -105),
+        "Cybersecurity": (-45, 135),
+        "Tools &amp; Infra": (-45, 135),
     }
     for key, c in clusters.items():
         ccx, ccy = c["center"]
         dx, dy = label_offsets[key]
-        parts.append(f'  <text x="{ccx+dx:.1f}" y="{ccy+dy:.1f}" font-family="Fira Code, Consolas, monospace" font-size="13" font-weight="bold" fill="#787c99">{key}</text>')
+        parts.append(f'  <text x="{ccx+dx:.1f}" y="{ccy+dy:.1f}" font-family="Fira Code, Consolas, monospace" font-size="14" font-weight="bold" fill="#7aa2f7">{key}</text>')
 
     parts.append('</svg>')
     return "\n".join(parts) + "\n"
-
-
-if __name__ == "__main__":
-    os.makedirs("assets", exist_ok=True)
-
-    print("Fetching tech stack icons...")
-    techstack_svg = build_techstack_svg()
-    with open("assets/techstack-fadein-float.svg", "w", encoding="utf-8") as f:
-        f.write(techstack_svg)
-    print("Saved assets/techstack-fadein-float.svg")
-
-    print("Fetching Discord badge...")
-    connect_svg = build_connect_svg()
-    with open("assets/connect-pulse.svg", "w", encoding="utf-8") as f:
-        f.write(connect_svg)
-    print("Saved assets/connect-pulse.svg")
-
-    print("Building constellation graph...")
-    constellation_svg = build_constellation_svg()
-    with open("assets/techstack-constellation.svg", "w", encoding="utf-8") as f:
-        f.write(constellation_svg)
-    print("Saved assets/techstack-constellation.svg")
