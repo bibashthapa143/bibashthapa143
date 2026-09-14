@@ -12,6 +12,7 @@ Outputs:
 """
 
 import base64
+import re
 import requests
 
 TECH_ICONS = [
@@ -25,12 +26,32 @@ DISCORD_BADGE_URL = (
 )
 
 
-def fetch_as_data_uri(url: str) -> str:
+def fetch(url: str) -> bytes:
     resp = requests.get(url, timeout=15)
     resp.raise_for_status()
-    b64 = base64.b64encode(resp.content).decode("utf-8")
-    content_type = resp.headers.get("Content-Type", "image/svg+xml")
+    return resp.content
+
+
+def to_data_uri(content: bytes, content_type: str = "image/svg+xml") -> str:
+    b64 = base64.b64encode(content).decode("utf-8")
     return f"data:{content_type};base64,{b64}"
+
+
+def get_svg_dimensions(svg_bytes: bytes) -> tuple[float, float]:
+    """Extract the real width/height (or viewBox) from an SVG's root tag."""
+    text = svg_bytes.decode("utf-8", errors="ignore")
+    w_match = re.search(r'width="([\d.]+)"', text)
+    h_match = re.search(r'height="([\d.]+)"', text)
+    if w_match and h_match:
+        return float(w_match.group(1)), float(h_match.group(1))
+    vb_match = re.search(r'viewBox="[\d.\-]+ [\d.\-]+ ([\d.]+) ([\d.]+)"', text)
+    if vb_match:
+        return float(vb_match.group(1)), float(vb_match.group(2))
+    return 200.0, 32.0  # fallback
+
+
+def fetch_as_data_uri(url: str) -> str:
+    return to_data_uri(fetch(url))
 
 
 def build_techstack_svg() -> str:
@@ -59,16 +80,32 @@ def build_techstack_svg() -> str:
 
 
 def build_connect_svg() -> str:
-    data_uri = fetch_as_data_uri(DISCORD_BADGE_URL)
-    return f'''<svg width="240" height="70" viewBox="0 0 240 70" xmlns="http://www.w3.org/2000/svg">
-  <rect x="20" y="19" width="200" height="32" rx="6" fill="none" stroke="#7289DA" stroke-width="2" opacity="0.7">
-    <animate attributeName="width" values="200;230;200" dur="2s" repeatCount="indefinite"/>
-    <animate attributeName="height" values="32;46;32" dur="2s" repeatCount="indefinite"/>
-    <animate attributeName="x" values="20;5;20" dur="2s" repeatCount="indefinite"/>
-    <animate attributeName="y" values="19;12;19" dur="2s" repeatCount="indefinite"/>
+    raw = fetch(DISCORD_BADGE_URL)
+    natural_w, natural_h = get_svg_dimensions(raw)
+    data_uri = to_data_uri(raw)
+
+    # scale to a target height, keep the real aspect ratio
+    target_h = 32
+    scale = target_h / natural_h
+    img_w = natural_w * scale
+    img_h = target_h
+
+    canvas_w, canvas_h = 240, 70
+    img_x = (canvas_w - img_w) / 2
+    img_y = (canvas_h - img_h) / 2
+
+    ring_w, ring_h = img_w + 20, img_h + 14
+    ring_x, ring_y = img_x - 10, img_y - 7
+
+    return f'''<svg width="{canvas_w}" height="{canvas_h}" viewBox="0 0 {canvas_w} {canvas_h}" xmlns="http://www.w3.org/2000/svg">
+  <rect x="{ring_x:.1f}" y="{ring_y:.1f}" width="{ring_w:.1f}" height="{ring_h:.1f}" rx="6" fill="none" stroke="#7289DA" stroke-width="2" opacity="0.7">
+    <animate attributeName="width" values="{ring_w:.1f};{ring_w+30:.1f};{ring_w:.1f}" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="height" values="{ring_h:.1f};{ring_h+14:.1f};{ring_h:.1f}" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="x" values="{ring_x:.1f};{ring_x-15:.1f};{ring_x:.1f}" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="y" values="{ring_y:.1f};{ring_y-7:.1f};{ring_y:.1f}" dur="2s" repeatCount="indefinite"/>
     <animate attributeName="opacity" values="0.7;0;0.7" dur="2s" repeatCount="indefinite"/>
   </rect>
-  <image x="20" y="19" width="200" height="32" href="{data_uri}"/>
+  <image x="{img_x:.1f}" y="{img_y:.1f}" width="{img_w:.1f}" height="{img_h:.1f}" href="{data_uri}"/>
 </svg>
 '''
 
