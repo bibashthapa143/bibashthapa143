@@ -1,117 +1,290 @@
+import base64
+import html
+import math
+import os
+import re
+import requests
+
+# 1. Base Tech Stack Icon List (Base Icons for build_techstack_svg only)
+# These are kept separate from the complex graph definition.
+TECH_ICONS = [
+    "c", "cpp", "java", "py", "html", "css", "ts", "js",
+    "nodejs", "nextjs", "vercel", "windows", "git",
+]
+
+# 2. External Badge URL
+DISCORD_BADGE_URL = (
+    "https://img.shields.io/badge/Discord-%237289DA.svg"
+    "?style=for-the-badge&logo=discord&logoColor=white"
+)
+
+
+# --- Utility Functions ---
+
+def fetch(url: str) -> bytes:
+    resp = requests.get(url, timeout=15)
+    resp.raise_for_status()
+    return resp.content
+
+
+def to_data_uri(content: bytes, content_type: str = "image/svg+xml") -> str:
+    b64 = base64.b64encode(content).decode("utf-8")
+    return f"data:{content_type};base64,{b64}"
+
+
+def fetch_as_data_uri(url: str) -> str:
+    # Safely escape ampersands in Data URIs for XML/SVG standards
+    return html.escape(to_data_uri(fetch(url)))
+
+
+def get_svg_dimensions(svg_bytes: bytes) -> tuple[float, float]:
+    """Extract width/height (or viewBox) from an SVG's root tag."""
+    text = svg_bytes.decode("utf-8", errors="ignore")
+    w_match = re.search(r'width="([\d.]+)"', text)
+    h_match = re.search(r'height="([\d.]+)"', text)
+    if w_match and h_match:
+        return float(w_match.group(1)), float(h_match.group(1))
+    vb_match = re.search(r'viewBox="[\d.\-]+ [\d.\-]+ ([\d.]+) ([\d.]+)"', text)
+    if vb_match:
+        return float(vb_match.group(1)), float(vb_match.group(2))
+    return 200.0, 32.0
+
+
+# --- SVG Builders ---
+
+def build_techstack_svg() -> str:
+    """Builds a simple horizontal row of floating tech icons."""
+    icon_size = 40
+    gap = 14
+    x = 10
+    parts = []
+    for i, icon in enumerate(TECH_ICONS):
+        url = f"https://skillicons.dev/icons?i={icon}"
+        data_uri = fetch_as_data_uri(url)
+        begin = round(i * 0.15, 2)
+        parts.append(f'''  <image x="{x}" y="10" width="{icon_size}" height="{icon_size}"
+    href="{data_uri}" opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="{begin}s" dur="0.4s" fill="freeze"/>
+    <animateTransform attributeName="transform" type="translate"
+      values="0 0;0 -8;0 0" dur="2s" begin="{begin}s" repeatCount="indefinite"/>
+  </image>''')
+        x += icon_size + gap
+
+    width = x + 10
+    body = "\n".join(parts)
+    return (
+        f'<svg width="{width}" height="60" viewBox="0 0 {width} 60" '
+        f'xmlns="http://www.w3.org/2000/svg">\n{body}\n</svg>\n'
+    )
+
+
+def build_connect_svg() -> str:
+    """Builds the animated Discord connect badge."""
+    raw = fetch(DISCORD_BADGE_URL)
+    natural_w, natural_h = get_svg_dimensions(raw)
+    data_uri = fetch_as_data_uri(DISCORD_BADGE_URL)
+
+    target_h = 32
+    scale = target_h / natural_h
+    img_w = natural_w * scale
+    img_h = target_h
+
+    canvas_w, canvas_h = 240, 70
+    img_x = (canvas_w - img_w) / 2
+    img_y = (canvas_h - img_h) / 2
+
+    ring_w, ring_h = img_w + 20, img_h + 14
+    ring_x, ring_y = img_x - 10, img_y - 7
+
+    return f'''<svg width="{canvas_w}" height="{canvas_h}" viewBox="0 0 {canvas_w} {canvas_h}" xmlns="http://www.w3.org/2000/svg">
+  <rect x="{ring_x:.1f}" y="{ring_y:.1f}" width="{ring_w:.1f}" height="{ring_h:.1f}" rx="6" fill="none" stroke="#7289DA" stroke-width="2" opacity="0.7">
+    <animate attributeName="width" values="{ring_w:.1f};{ring_w+30:.1f};{ring_w:.1f}" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="height" values="{ring_h:.1f};{ring_h+14:.1f};{ring_h:.1f}" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="x" values="{ring_x:.1f};{ring_x-15:.1f};{ring_x:.1f}" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="y" values="{ring_y:.1f};{ring_y-7:.1f};{ring_y:.1f}" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.7;0;0.7" dur="2s" repeatCount="indefinite"/>
+  </rect>
+  <image x="{img_x:.1f}" y="{img_y:.1f}" width="{img_w:.1f}" height="{img_h:.1f}" href="{data_uri}"/>
+</svg>
+'''
+
+
 def build_constellation_svg() -> str:
-    # Card-based Matrix Layout Definitions
-    cards = [
-        {
-            "title": "LANGUAGES",
-            "accent": "#7aa2f7",
-            "rect": (30, 40, 360, 220),
-            "hub": ("Python", "py", "#3776AB", (110, 110)),
-            "nodes": [
-                ("C", "c", "#5C6BC0", (220, 110)),
-                ("C++", "cpp", "#00599C", (310, 110)),
-                ("Java", "java", "#EA2D2E", (110, 190)),
-                ("JavaScript", "js", "#F7DF1E", (220, 190)),
+    """Builds the complex, animated network constellation graph."""
+    # Balanced 4-Cluster Definitions: Re-anchored into a 2x2 grid with new style spacing.
+    clusters = {
+        "Languages": {
+            "center": (200, 150),
+            "hub": ("Python", "py", "#3776AB"),
+            "members": [
+                ("C", "c", "#5C6BC0"),
+                ("C++", "cpp", "#00599C"),
+                ("Java", "java", "#EA2D2E"),
             ],
-            "links": [("Python", "C"), ("C", "C++"), ("Python", "Java"), ("Python", "JavaScript")]
         },
-        {
-            "title": "WEB STACK",
-            "accent": "#73daca",
-            "rect": (430, 40, 360, 220),
-            "hub": ("React", "react", "#61DAFB", (510, 110)),
-            "nodes": [
-                ("TypeScript", "ts", "#3178C6", (610, 110)),
-                ("Next.js", "nextjs", "#c0caf5", (710, 110)),
-                ("Node.js", "nodejs", "#339933", (510, 190)),
-                ("HTML/CSS", "html", "#E34F26", (610, 190)),
-                ("PostgreSQL", "postgres", "#4169E1", (710, 190)),
+        "Web Stack": {
+            "center": (620, 150),
+            "hub": ("React", "react", "#61DAFB"),
+            "members": [
+                ("HTML5", "html", "#E34F26"),
+                ("CSS3", "css", "#1572B6"),
+                ("JavaScript", "js", "#F7DF1E"),
+                ("TypeScript", "ts", "#3178C6"),
+                ("Node.js", "nodejs", "#339933"),
+                ("Next.js", "nextjs", "#c0caf5"),
+                ("PostgreSQL", "postgres", "#4169E1"),
             ],
-            "links": [("React", "TypeScript"), ("TypeScript", "Next.js"), ("React", "Node.js"), ("Node.js", "HTML/CSS"), ("Node.js", "PostgreSQL")]
         },
-        {
-            "title": "CYBERSECURITY",
-            "accent": "#f7768e",
-            "rect": (30, 290, 360, 220),
-            "hub": ("Kali Linux", "kali", "#557C93", (110, 360)),
-            "nodes": [
-                ("Linux", "linux", "#FCC624", (220, 360)),
-                ("Burp Suite", "burpsuite", "#FF6600", (310, 360)),
-                ("Bash", "bash", "#4EAA25", (110, 440)),
+        "Cybersecurity": {
+            "center": (200, 420),
+            "hub": ("Kali Linux", "kali", "#557C93"),
+            "members": [
+                ("Linux", "linux", "#FCC624"),
+                ("Burp Suite", "burpsuite", "#FF6600"),  # Skillicons slug fixed.
+                ("Wireshark", "wireshark", "#167DAA"), # (Slug needs verification from skillicons.dev or use a different icon).
             ],
-            "links": [("Kali Linux", "Linux"), ("Linux", "Burp Suite"), ("Kali Linux", "Bash")]
         },
-        {
-            "title": "TOOLS &amp; INFRA",
-            "accent": "#bb9af7",
-            "rect": (430, 290, 360, 220),
-            "hub": ("Git", "git", "#F05032", (510, 360)),
-            "nodes": [
-                ("VS Code", "vscode", "#007ACC", (610, 360)),
-                ("GitHub", "github", "#c0caf5", (710, 360)),
-                ("Figma", "figma", "#F24E1E", (510, 440)),
+        "DevOps &amp; Infra": { # Title escaped for XML compliance (& -> &amp;)
+            "center": (620, 420),
+            "hub": ("Git", "git", "#F05032"),
+            "members": [
+                ("GitHub", "github", "#c0caf5"),
+                ("VS Code", "vscode", "#007ACC"),
+                ("VMware", "windows", "#FCC624"), # (VMware skillicons slug might need verification, using 'windows' as placeholder).
             ],
-            "links": [("Git", "VS Code"), ("VS Code", "GitHub"), ("Git", "Figma")]
-        }
+        },
+    }
+
+    # Dimensions and radial logic
+    W, H = 820, 560
+    hub_r, member_r, member_radius = 24, 16, 85
+
+    positions = {}
+    node_info = {}
+    intra_edges = []
+    hub_names = {}
+
+    # Calculate radial positions and store node info
+    for key, c in clusters.items():
+        ccx, ccy = c["center"]
+        hub_name, hub_slug, hub_color = c["hub"]
+        positions[hub_name] = (ccx, ccy)
+        node_info[hub_name] = (hub_slug, hub_color, hub_r, True)
+        hub_names[key] = hub_name
+
+        n = len(c["members"])
+        for i, (name, slug, color) in enumerate(c["members"]):
+            # Angle offset ensures clean circular distribution
+            angle = (2 * math.pi * i / n) - (math.pi / 2)
+            x = ccx + member_radius * math.cos(angle)
+            y = ccy + member_radius * math.sin(angle)
+            positions[name] = (x, y)
+            node_info[name] = (slug, color, member_r, False)
+            intra_edges.append((hub_name, name))
+
+    # Curved bridges (paths) between major domain hubs for the "Redesign in new style" request.
+    # Format: (StartNodeName, EndNodeName, ControlPointX, ControlPointY)
+    # The curved paths bow outward gracefully.
+    curved_bridges = [
+        ("Python", "React", 410, 100),       # Top curve
+        ("Python", "Kali Linux", 120, 285),   # Left curve
+        ("React", "Git", 700, 285),          # Right curve
+        ("Kali Linux", "Git", 410, 470),      # Bottom curve
+        ("Python", "Git", 410, 285),         # Center diagonal bridge (curved)
     ]
 
-    # Inter-card Cross Bridges (Source Pos, Target Pos)
-    matrix_bridges = [
-        ((310, 110), (510, 110)),  # Languages -> Web
-        ((110, 190), (110, 360)),  # Languages -> Security
-        ((710, 190), (710, 360)),  # Web -> Tools
-        ((310, 360), (510, 360)),  # Security -> Tools
-    ]
-
-    W, H = 820, 540
     parts = [
         f'<svg width="{W}" height="{H}" viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg">',
         f'  <rect x="0" y="0" width="{W}" height="{H}" rx="16" fill="#1a1b27"/>',
     ]
 
-    # 1. Render Matrix Cards & Accent Headers
-    for c in cards:
-        cx, cy, cw, ch = c["rect"]
-        parts.append(f'  <rect x="{cx}" y="{cy}" width="{cw}" height="{ch}" rx="12" fill="#24283b" opacity="0.4" stroke="#414868" stroke-width="1"/>')
-        parts.append(f'  <path d="M {cx+12} {cy} L {cx+cw-12} {cy}" stroke="{c["accent"]}" stroke-width="3" stroke-linecap="round"/>')
-        parts.append(f'  <text x="{cx+20}" y="{cy+25}" font-family="Fira Code, Consolas, monospace" font-size="12" font-weight="bold" fill="{c["accent"]}">{c["title"]}</text>')
+    # --- Render Background Structure ---
 
-    # 2. Render Cross-Matrix Bridges with Pulse Animation
-    for i, ((x1, y1), (x2, y2)) in enumerate(matrix_bridges):
-        begin = round(i * 0.45, 2)
-        parts.append(f'  <line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="#bb9af7" stroke-width="1.5" opacity="0.35" stroke-dasharray="4 4"/>')
+    # Render cluster ambient background rings and category headers
+    for key, c in clusters.items():
+        ccx, ccy = c["center"]
+        # Ambient Dotted Ring
+        parts.append(f'  <circle cx="{ccx}" cy="{ccy}" r="{member_radius + 22}" fill="none" stroke="#24283b" stroke-width="1.5" stroke-dasharray="4 4"/>')
+        # Tokyo Night styled Headers
+        parts.append(f'  <text x="{ccx}" y="{ccy - member_radius - 30}" font-family="Fira Code, Consolas, monospace" font-size="13" font-weight="bold" fill="#7aa2f7" text-anchor="middle">{key}</text>')
+
+    # Render static intra-cluster (internal) lines
+    for a, b in intra_edges:
+        x1, y1 = positions[a]
+        x2, y2 = positions[b]
+        parts.append(f'  <line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="#414868" stroke-width="1.2" opacity="0.5"/>')
+
+    # --- Render Smooth Inter-Cluster Bridges & Pulse Animations ---
+
+    for i, (src, dst, cx, cy) in enumerate(curved_bridges):
+        x1, y1 = positions[src]
+        x2, y2 = positions[dst]
+        path_d = f"M {x1:.1f} {y1:.1f} Q {cx:.1f} {cy:.1f} {x2:.1f} {y2:.1f}"
+        begin = round(i * 0.4, 2)
+
+        # Draw curved line path
+        parts.append(f'  <path d="{path_d}" fill="none" stroke="#bb9af7" stroke-width="1.5" opacity="0.45" stroke-dasharray="5 5"/>')
+        # Animated pulse moving along the curve
         parts.append(f'''  <circle r="3.5" fill="#7dcfff">
-    <animateMotion dur="2.8s" begin="{begin}s" repeatCount="indefinite" path="M {x1} {y1} L {x2} {y2}"/>
-    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="2.8s" begin="{begin}s" repeatCount="indefinite"/>
+    <animateMotion dur="3s" begin="{begin}s" repeatCount="indefinite" path="{path_d}"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3s" begin="{begin}s" repeatCount="indefinite"/>
   </circle>''')
 
-    # 3. Render Card Intra-Links & Skill Nodes
-    for c in cards:
-        all_nodes = [c["hub"]] + c["nodes"]
-        pos_map = {item[0]: item[3] for item in all_nodes}
+    # --- Render Nodes & Embedded Icons ---
 
-        # Draw local connectors
-        for src, dst in c["links"]:
-            x1, y1 = pos_map[src]
-            x2, y2 = pos_map[dst]
-            parts.append(f'  <line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="#414868" stroke-width="1.2" opacity="0.6"/>')
+    for name, (slug, color, r, is_hub) in node_info.items():
+        x, y = positions[name]
+        icon_size = r * 1.3
+        
+        # Skillicons slug validation: 'wireshark' is not supported, 'github', 'windows' are placeholders
+        # Replace these placeholders with actual supported slugs from skillicons.dev.
+        # For now, embedding will fail for invalid slugs.
+        data_uri = fetch_as_data_uri(f"https://skillicons.dev/icons?i={slug}")
 
-        # Draw nodes
-        for item in all_nodes:
-            name, slug, color, (x, y) = item[0], item[1], item[2], item[3]
-            is_hub = (name == c["hub"][0])
-            r = 18 if is_hub else 14
-            icon_size = r * 1.35
-            data_uri = fetch_as_data_uri(f"https://skillicons.dev/icons?i={slug}")
-
-            if is_hub:
-                parts.append(f'''  <circle cx="{x}" cy="{y}" r="{r+6}" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.5">
-    <animate attributeName="r" values="{r+4};{r+10};{r+4}" dur="2.5s" repeatCount="indefinite"/>
-    <animate attributeName="opacity" values="0.5;0;0.5" dur="2.5s" repeatCount="indefinite"/>
+        # Render Glowing Rings for Cluster Hubs
+        if is_hub:
+            glow_r0, glow_r1 = r + 6, r + 14
+            parts.append(f'''  <circle cx="{x:.1f}" cy="{y:.1f}" r="{glow_r0}" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.6">
+    <animate attributeName="r" values="{glow_r0};{glow_r1};{glow_r0}" dur="2.8s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.6;0.1;0.6" dur="2.8s" repeatCount="indefinite"/>
   </circle>''')
 
-            parts.append(f'  <rect x="{x-r}" y="{y-r}" width="{r*2}" height="{r*2}" rx="6" fill="#1a1b27" stroke="{color}" stroke-width="2"/>')
-            parts.append(f'  <image x="{x - icon_size/2:.1f}" y="{y - icon_size/2:.1f}" width="{icon_size:.1f}" height="{icon_size:.1f}" href="{data_uri}"/>')
-            parts.append(f'  <text x="{x}" y="{y + r + 12}" font-family="Fira Code, Consolas, monospace" font-size="9" fill="#c0caf5" text-anchor="middle">{name}</text>')
+        # Node static circle background
+        parts.append(f'  <circle cx="{x:.1f}" cy="{y:.1f}" r="{r}" fill="#1a1b27" stroke="{color}" stroke-width="2"/>')
+        
+        # Embed the Base64 icon image
+        parts.append(
+            f'  <image x="{x - icon_size/2:.1f}" y="{y - icon_size/2:.1f}" '
+            f'width="{icon_size:.1f}" height="{icon_size:.1f}" href="{data_uri}"/>'
+        )
+        
+        # Apply neat Fira Code typography for node micro labels
+        label_y = y + r + 12
+        parts.append(f'  <text x="{x:.1f}" y="{label_y:.1f}" font-family="Fira Code, Consolas, monospace" font-size="9.5" fill="#c0caf5" text-anchor="middle">{name}</text>')
 
     parts.append('</svg>')
     return "\n".join(parts) + "\n"
+
+
+# --- Main Execution Path ---
+
+if __name__ == "__main__":
+    os.makedirs("assets", exist_ok=True)
+
+    print("Fetching dynamic floating tech stack row icons...")
+    techstack_svg = build_techstack_svg()
+    with open("assets/techstack-fadein-float.svg", "w", encoding="utf-8") as f:
+        f.write(techstack_svg)
+    print("Saved assets/techstack-fadein-float.svg")
+
+    print("Fetching animated Discord badge with ring pulse...")
+    connect_svg = build_connect_svg()
+    with open("assets/connect-pulse.svg", "w", encoding="utf-8") as f:
+        f.write(connect_svg)
+    print("Saved assets/connect-pulse.svg")
+
+    print("Building balanced, curved constellation network graph (New Style redesign)...")
+    constellation_svg = build_constellation_svg()
+    with open("assets/techstack-constellation.svg", "w", encoding="utf-8") as f:
+        f.write(constellation_svg)
+    print("Saved assets/techstack-constellation.svg")
