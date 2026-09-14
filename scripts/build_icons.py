@@ -1,4 +1,5 @@
 import base64
+import html
 import math
 import os
 import re
@@ -26,8 +27,13 @@ def to_data_uri(content: bytes, content_type: str = "image/svg+xml") -> str:
     return f"data:{content_type};base64,{b64}"
 
 
+def fetch_as_data_uri(url: str) -> str:
+    # Safely escape ampersands in Data URIs for XML/SVG standards
+    return html.escape(to_data_uri(fetch(url)))
+
+
 def get_svg_dimensions(svg_bytes: bytes) -> tuple[float, float]:
-    """Extract the real width/height (or viewBox) from an SVG's root tag."""
+    """Extract width/height (or viewBox) from an SVG's root tag."""
     text = svg_bytes.decode("utf-8", errors="ignore")
     w_match = re.search(r'width="([\d.]+)"', text)
     h_match = re.search(r'height="([\d.]+)"', text)
@@ -36,11 +42,7 @@ def get_svg_dimensions(svg_bytes: bytes) -> tuple[float, float]:
     vb_match = re.search(r'viewBox="[\d.\-]+ [\d.\-]+ ([\d.]+) ([\d.]+)"', text)
     if vb_match:
         return float(vb_match.group(1)), float(vb_match.group(2))
-    return 200.0, 32.0  # fallback
-
-
-def fetch_as_data_uri(url: str) -> str:
-    return to_data_uri(fetch(url))
+    return 200.0, 32.0
 
 
 def build_techstack_svg() -> str:
@@ -71,7 +73,7 @@ def build_techstack_svg() -> str:
 def build_connect_svg() -> str:
     raw = fetch(DISCORD_BADGE_URL)
     natural_w, natural_h = get_svg_dimensions(raw)
-    data_uri = to_data_uri(raw)
+    data_uri = fetch_as_data_uri(DISCORD_BADGE_URL)
 
     target_h = 32
     scale = target_h / natural_h
@@ -99,7 +101,7 @@ def build_connect_svg() -> str:
 
 
 def build_constellation_svg() -> str:
-    # Restructured 4 Clusters: Languages, Web, Cybersecurity, and Tools
+    # Cluster labels escaped for XML compliance (& -> &amp;)
     clusters = {
         "Languages": {
             "center": (180, 130),
@@ -131,7 +133,7 @@ def build_constellation_svg() -> str:
                 ("Wireshark", "wireshark", "#167DAA"),
             ],
         },
-        "Tools & Infra": {
+        "Tools &amp; Infra": {
             "center": (600, 390),
             "hub": ("Git", "git", "#F05032"),
             "members": [
@@ -166,12 +168,11 @@ def build_constellation_svg() -> str:
             node_info[name] = (slug, color, member_r, False)
             intra_edges.append((hub_name, name))
 
-    # Clean, non-intersecting cross-domain ties
     bridge_edges = [
-        (hub_names["Languages"], hub_names["Cybersecurity"]),  # Python -> Security Automation
-        (hub_names["Languages"], hub_names["Web Stack"]),      # JS/TS -> Full Stack
-        (hub_names["Tools & Infra"], hub_names["Web Stack"]),  # Git -> Web Stack
-        (hub_names["Tools & Infra"], hub_names["Cybersecurity"]), # Git -> Security Labs
+        (hub_names["Languages"], hub_names["Cybersecurity"]),
+        (hub_names["Languages"], hub_names["Web Stack"]),
+        (hub_names["Tools &amp; Infra"], hub_names["Web Stack"]),
+        (hub_names["Tools &amp; Infra"], hub_names["Cybersecurity"]),
     ]
 
     parts = [
@@ -210,12 +211,11 @@ def build_constellation_svg() -> str:
             f'width="{icon_size:.1f}" height="{icon_size:.1f}" href="{data_uri}"/>'
         )
 
-    # Cluster headers
     label_offsets = {
         "Languages": (-35, -95),
         "Web Stack": (-35, -95),
         "Cybersecurity": (-45, 125),
-        "Tools & Infra": (-45, 125),
+        "Tools &amp; Infra": (-45, 125),
     }
     for key, c in clusters.items():
         ccx, ccy = c["center"]
@@ -231,18 +231,18 @@ if __name__ == "__main__":
 
     print("Fetching tech stack icons...")
     techstack_svg = build_techstack_svg()
-    with open("assets/techstack-fadein-float.svg", "w") as f:
+    with open("assets/techstack-fadein-float.svg", "w", encoding="utf-8") as f:
         f.write(techstack_svg)
     print("Saved assets/techstack-fadein-float.svg")
 
     print("Fetching Discord badge...")
     connect_svg = build_connect_svg()
-    with open("assets/connect-pulse.svg", "w") as f:
+    with open("assets/connect-pulse.svg", "w", encoding="utf-8") as f:
         f.write(connect_svg)
     print("Saved assets/connect-pulse.svg")
 
-    print("Building balanced constellation graph...")
+    print("Building constellation graph...")
     constellation_svg = build_constellation_svg()
-    with open("assets/techstack-constellation.svg", "w") as f:
+    with open("assets/techstack-constellation.svg", "w", encoding="utf-8") as f:
         f.write(constellation_svg)
     print("Saved assets/techstack-constellation.svg")
