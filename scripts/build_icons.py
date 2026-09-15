@@ -5,13 +5,12 @@ import os
 import re
 import requests
 
-# 1. Base Tech Stack Icon List (for floating header row)
+# Tech icons for the simple floating header row
 TECH_ICONS = [
     "c", "cpp", "java", "py", "html", "css", "ts", "js",
     "nodejs", "nextjs", "vercel", "windows", "git",
 ]
 
-# 2. External Badge URL
 DISCORD_BADGE_URL = (
     "https://img.shields.io/badge/Discord-%237289DA.svg"
     "?style=for-the-badge&logo=discord&logoColor=white"
@@ -20,29 +19,31 @@ DISCORD_BADGE_URL = (
 
 # --- Utility Functions ---
 
-def fetch(url: str) -> bytes:
+def fetch(url: str) -> bytes | None:
+    """Fetch bytes, or None if it fails / returns a non-image."""
     try:
         resp = requests.get(url, timeout=15)
         resp.raise_for_status()
+        if len(resp.content) < 100:
+            print(f"Warning: suspiciously small response from {url}")
+            return None
         return resp.content
     except requests.exceptions.RequestException as e:
         print(f"Warning: Failed to fetch {url}: {e}")
-        # Return a minimal valid SVG as fallback
-        return b'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="#666"/></svg>'
+        return None
 
 
 def to_data_uri(content: bytes, content_type: str = "image/svg+xml") -> str:
     b64 = base64.b64encode(content).decode("utf-8")
-    return f"data:{content_type};base64,{b64}"
+    return html.escape(f"data:{content_type};base64,{b64}")
 
 
-def fetch_as_data_uri(url: str) -> str:
-    # Safely escape ampersands in Data URIs for XML/SVG compliance
-    return html.escape(to_data_uri(fetch(url)))
+def fetch_as_data_uri(url: str) -> str | None:
+    content = fetch(url)
+    return to_data_uri(content) if content else None
 
 
 def get_svg_dimensions(svg_bytes: bytes) -> tuple[float, float]:
-    """Extract width/height (or viewBox) from an SVG's root tag."""
     text = svg_bytes.decode("utf-8", errors="ignore")
     w_match = re.search(r'width="([\d.]+)"', text)
     h_match = re.search(r'height="([\d.]+)"', text)
@@ -54,17 +55,32 @@ def get_svg_dimensions(svg_bytes: bytes) -> tuple[float, float]:
     return 200.0, 32.0
 
 
+def render_node_glyph(slug: str, label: str, color: str, x: float, y: float, size: float) -> str:
+    """Real icon if skillicons has it; otherwise a clean colored text badge
+    in the tool's brand color (never a blank grey blob)."""
+    data_uri = fetch_as_data_uri(f"https://skillicons.dev/icons?i={slug}") if slug else None
+    if data_uri:
+        return (
+            f'  <image x="{x - size/2:.1f}" y="{y - size/2:.1f}" '
+            f'width="{size:.1f}" height="{size:.1f}" href="{data_uri}"/>'
+        )
+    fs = size * 0.42
+    return (
+        f'  <text x="{x:.1f}" y="{y + fs/3:.1f}" font-size="{fs:.1f}" font-weight="bold" '
+        f'fill="{color}" text-anchor="middle" '
+        f'font-family="Fira Code, Consolas, monospace">{label}</text>'
+    )
+
+
 # --- SVG Builders ---
 
 def build_techstack_svg() -> str:
-    """Builds a horizontal row of floating tech icons."""
-    icon_size = 40
-    gap = 14
-    x = 10
+    icon_size, gap, x = 40, 14, 10
     parts = []
     for i, icon in enumerate(TECH_ICONS):
-        url = f"https://skillicons.dev/icons?i={icon}"
-        data_uri = fetch_as_data_uri(url)
+        data_uri = fetch_as_data_uri(f"https://skillicons.dev/icons?i={icon}")
+        if not data_uri:
+            continue
         begin = round(i * 0.15, 2)
         parts.append(f'''  <image x="{x}" y="10" width="{icon_size}" height="{icon_size}"
     href="{data_uri}" opacity="0">
@@ -83,20 +99,19 @@ def build_techstack_svg() -> str:
 
 
 def build_connect_svg() -> str:
-    """Builds the animated Discord connect badge."""
     raw = fetch(DISCORD_BADGE_URL)
+    if not raw:
+        raise RuntimeError("Could not fetch Discord badge")
     natural_w, natural_h = get_svg_dimensions(raw)
-    data_uri = fetch_as_data_uri(DISCORD_BADGE_URL)
+    data_uri = to_data_uri(raw)
 
     target_h = 32
     scale = target_h / natural_h
-    img_w = natural_w * scale
-    img_h = target_h
+    img_w, img_h = natural_w * scale, target_h
 
     canvas_w, canvas_h = 240, 70
     img_x = (canvas_w - img_w) / 2
     img_y = (canvas_h - img_h) / 2
-
     ring_w, ring_h = img_w + 20, img_h + 14
     ring_x, ring_y = img_x - 10, img_y - 7
 
@@ -114,81 +129,78 @@ def build_connect_svg() -> str:
 
 
 def build_constellation_svg() -> str:
-    """Builds the animated network constellation graph."""
+    """Clustered network graph. Entry format:
+    (display name, skillicons slug, brand color, short fallback label)"""
     clusters = {
         "Languages": {
-            "center": (200, 150),
-            "hub": ("Python", "py", "#3776AB"),
+            "center": (200, 160),
+            "hub": ("Python", "py", "#3776AB", "Py"),
             "members": [
-                ("C", "c", "#5C6BC0"),
-                ("C++", "cpp", "#00599C"),
-                ("Java", "java", "#EA2D2E"),
+                ("C", "c", "#5C6BC0", "C"),
+                ("C++", "cpp", "#00599C", "C+"),
+                ("Java", "java", "#EA2D2E", "Jv"),
             ],
         },
         "Web Stack": {
-            "center": (620, 150),
-            "hub": ("React", "react", "#61DAFB"),
+            "center": (620, 160),
+            "hub": ("JavaScript", "js", "#F7DF1E", "JS"),
             "members": [
-                ("HTML5", "html", "#E34F26"),
-                ("CSS3", "css", "#1572B6"),
-                ("JavaScript", "js", "#F7DF1E"),
-                ("TypeScript", "ts", "#3178C6"),
-                ("Node.js", "nodejs", "#339933"),
-                ("Next.js", "nextjs", "#c0caf5"),
-                ("PostgreSQL", "postgres", "#4169E1"),
+                ("HTML5", "html", "#E34F26", "H5"),
+                ("CSS3", "css", "#1572B6", "C3"),
+                ("TypeScript", "ts", "#3178C6", "TS"),
+                ("Node.js", "nodejs", "#339933", "Nd"),
+                ("Next.js", "nextjs", "#c0caf5", "Nx"),
+                ("Vercel", "vercel", "#c0caf5", "Vc"),
             ],
         },
-        "Cybersecurity": {
-            "center": (200, 420),
-            "hub": ("Kali Linux", "kali", "#557C93"),
+        "Cybersecurity &amp; Labs": {
+            "center": (200, 440),
+            "hub": ("Kali Linux", "kali", "#557C93", "Kali"),
             "members": [
-                ("Linux", "linux", "#FCC624"),
-                # Use Font Awesome Pro via jsDelivr for better icon availability
-                ("Burp Suite", "burp", "#FF6600"),
-                ("Wireshark", "wireshark", "#167DAA"),
+                ("Linux", "linux", "#FCC624", "Lx"),
+                ("Nmap", "nmap", "#4FA92C", "Nmap"),
             ],
         },
-        "DevOps &amp; Infra": {
-            "center": (620, 420),
-            "hub": ("Git", "git", "#F05032"),
+        "Tools &amp; Infra": {
+            "center": (620, 440),
+            "hub": ("Git", "git", "#F05032", "Git"),
             "members": [
-                ("GitHub", "github", "#c0caf5"),
-                ("VS Code", "vscode", "#007ACC"),
-                ("VMware", "vmware", "#60B2E5"),
+                ("GitHub", "github", "#c0caf5", "GH"),
+                ("VS Code", "vscode", "#007ACC", "VS"),
+                ("Figma", "figma", "#F24E1E", "Fg"),
+                ("VMware", "vmware", "#60B2E5", "VM"),
+                ("Windows", "windows", "#00A4EF", "Win"),
             ],
         },
     }
 
-    W, H = 820, 560
-    hub_r, member_r, member_radius = 24, 16, 85
+    W, H = 820, 600
+    hub_r, member_r, member_radius = 24, 16, 88
 
-    positions = {}
-    node_info = {}
-    intra_edges = []
-    hub_names = {}
+    positions, node_info, intra_edges, hub_names = {}, {}, [], {}
 
     for key, c in clusters.items():
         ccx, ccy = c["center"]
-        hub_name, hub_slug, hub_color = c["hub"]
+        hub_name, hub_slug, hub_color, hub_label = c["hub"]
         positions[hub_name] = (ccx, ccy)
-        node_info[hub_name] = (hub_slug, hub_color, hub_r, True)
+        node_info[hub_name] = (hub_slug, hub_color, hub_label, hub_r, True)
         hub_names[key] = hub_name
 
-        n = len(c["members"])
-        for i, (name, slug, color) in enumerate(c["members"]):
+        n = max(len(c["members"]), 1)
+        for i, (name, slug, color, label) in enumerate(c["members"]):
             angle = (2 * math.pi * i / n) - (math.pi / 2)
             x = ccx + member_radius * math.cos(angle)
             y = ccy + member_radius * math.sin(angle)
             positions[name] = (x, y)
-            node_info[name] = (slug, color, member_r, False)
+            node_info[name] = (slug, color, label, member_r, False)
             intra_edges.append((hub_name, name))
 
     curved_bridges = [
-        ("Python", "React", 410, 100),
-        ("Python", "Kali Linux", 120, 285),
-        ("React", "Git", 700, 285),
-        ("Kali Linux", "Git", 410, 470),
-        ("Python", "Git", 410, 285),
+        ("Python", "JavaScript", 410, 105),
+        ("Python", "Kali Linux", 118, 300),
+        ("JavaScript", "Git", 702, 300),
+        ("Kali Linux", "Git", 410, 495),
+        ("Python", "Git", 410, 300),
     ]
 
     parts = [
@@ -198,8 +210,8 @@ def build_constellation_svg() -> str:
 
     for key, c in clusters.items():
         ccx, ccy = c["center"]
-        parts.append(f'  <circle cx="{ccx}" cy="{ccy}" r="{member_radius + 22}" fill="none" stroke="#24283b" stroke-width="1.5" stroke-dasharray="4 4"/>')
-        parts.append(f'  <text x="{ccx}" y="{ccy - member_radius - 30}" font-family="Fira Code, Consolas, monospace" font-size="13" font-weight="bold" fill="#7aa2f7" text-anchor="middle">{key}</text>')
+        parts.append(f'  <circle cx="{ccx}" cy="{ccy}" r="{member_radius + 26}" fill="none" stroke="#24283b" stroke-width="1.5" stroke-dasharray="4 4"/>')
+        parts.append(f'  <text x="{ccx}" y="{ccy - member_radius - 36}" font-family="Fira Code, Consolas, monospace" font-size="13" font-weight="bold" fill="#7aa2f7" text-anchor="middle">{key}</text>')
 
     for a, b in intra_edges:
         x1, y1 = positions[a]
@@ -211,60 +223,45 @@ def build_constellation_svg() -> str:
         x2, y2 = positions[dst]
         path_d = f"M {x1:.1f} {y1:.1f} Q {cx:.1f} {cy:.1f} {x2:.1f} {y2:.1f}"
         begin = round(i * 0.4, 2)
-
         parts.append(f'  <path d="{path_d}" fill="none" stroke="#bb9af7" stroke-width="1.5" opacity="0.45" stroke-dasharray="5 5"/>')
         parts.append(f'''  <circle r="3.5" fill="#7dcfff">
     <animateMotion dur="3s" begin="{begin}s" repeatCount="indefinite" path="{path_d}"/>
     <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3s" begin="{begin}s" repeatCount="indefinite"/>
   </circle>''')
 
-    for name, (slug, color, r, is_hub) in node_info.items():
+    for name, (slug, color, label, r, is_hub) in node_info.items():
         x, y = positions[name]
         icon_size = r * 1.3
-
-        # Build skillicon URLs - all tools now use skillicons which is more reliable
-        icon_url = f"https://skillicons.dev/icons?i={slug}"
-
-        data_uri = fetch_as_data_uri(icon_url)
-
         if is_hub:
-            glow_r0, glow_r1 = r + 6, r + 14
-            parts.append(f'''  <circle cx="{x:.1f}" cy="{y:.1f}" r="{glow_r0}" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.6">
-    <animate attributeName="r" values="{glow_r0};{glow_r1};{glow_r0}" dur="2.8s" repeatCount="indefinite"/>
+            g0, g1 = r + 6, r + 14
+            parts.append(f'''  <circle cx="{x:.1f}" cy="{y:.1f}" r="{g0}" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.6">
+    <animate attributeName="r" values="{g0};{g1};{g0}" dur="2.8s" repeatCount="indefinite"/>
     <animate attributeName="opacity" values="0.6;0.1;0.6" dur="2.8s" repeatCount="indefinite"/>
   </circle>''')
-
         parts.append(f'  <circle cx="{x:.1f}" cy="{y:.1f}" r="{r}" fill="#1a1b27" stroke="{color}" stroke-width="2"/>')
-        parts.append(
-            f'  <image x="{x - icon_size/2:.1f}" y="{y - icon_size/2:.1f}" '
-            f'width="{icon_size:.1f}" height="{icon_size:.1f}" href="{data_uri}"/>'
-        )
-        label_y = y + r + 12
-        parts.append(f'  <text x="{x:.1f}" y="{label_y:.1f}" font-family="Fira Code, Consolas, monospace" font-size="9.5" fill="#c0caf5" text-anchor="middle">{name}</text>')
+        parts.append(render_node_glyph(slug, label, color, x, y, icon_size))
+        parts.append(f'  <text x="{x:.1f}" y="{y + r + 13:.1f}" font-family="Fira Code, Consolas, monospace" font-size="9.5" fill="#c0caf5" text-anchor="middle">{name}</text>')
 
     parts.append('</svg>')
     return "\n".join(parts) + "\n"
 
 
-# --- Main Execution ---
+# --- Main ---
 
 if __name__ == "__main__":
     os.makedirs("assets", exist_ok=True)
 
-    print("Fetching dynamic floating tech stack row icons...")
-    techstack_svg = build_techstack_svg()
+    print("Building floating tech stack row...")
     with open("assets/techstack-fadein-float.svg", "w", encoding="utf-8") as f:
-        f.write(techstack_svg)
+        f.write(build_techstack_svg())
     print("Saved assets/techstack-fadein-float.svg")
 
-    print("Fetching animated Discord badge with ring pulse...")
-    connect_svg = build_connect_svg()
+    print("Building Discord connect badge...")
     with open("assets/connect-pulse.svg", "w", encoding="utf-8") as f:
-        f.write(connect_svg)
+        f.write(build_connect_svg())
     print("Saved assets/connect-pulse.svg")
 
-    print("Building constellation graph with skillicons.dev...")
-    constellation_svg = build_constellation_svg()
+    print("Building clustered constellation graph...")
     with open("assets/techstack-constellation.svg", "w", encoding="utf-8") as f:
-        f.write(constellation_svg)
+        f.write(build_constellation_svg())
     print("Saved assets/techstack-constellation.svg")
