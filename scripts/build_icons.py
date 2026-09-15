@@ -173,7 +173,7 @@ def build_constellation_svg() -> str:
     (display name, skillicons slug, brand color, short fallback label)"""
     clusters = {
         "Languages": {
-            "center": (200, 160),
+            "center": (215, 165),
             "hub": ("Python", "py", "#3776AB", "Py"),
             "members": [
                 ("C", "c", "#5C6BC0", "C"),
@@ -182,7 +182,7 @@ def build_constellation_svg() -> str:
             ],
         },
         "Web Stack": {
-            "center": (620, 160),
+            "center": (650, 165),
             "hub": ("JavaScript", "js", "#F7DF1E", "JS"),
             "members": [
                 ("HTML5", "html", "#E34F26", "H5"),
@@ -194,7 +194,7 @@ def build_constellation_svg() -> str:
             ],
         },
         "Cybersecurity &amp; Labs": {
-            "center": (200, 440),
+            "center": (215, 465),
             "hub": ("Kali Linux", "kali", "#557C93", "Kali"),
             "members": [
                 ("Linux", "linux", "#FCC624", "Lx"),
@@ -202,7 +202,7 @@ def build_constellation_svg() -> str:
             ],
         },
         "Tools &amp; Infra": {
-            "center": (620, 440),
+            "center": (650, 465),
             "hub": ("Git", "git", "#F05032", "Git"),
             "members": [
                 ("GitHub", "github", "#c0caf5", "GH"),
@@ -214,8 +214,8 @@ def build_constellation_svg() -> str:
         },
     }
 
-    W, H = 820, 600
-    hub_r, member_r, member_radius = 24, 16, 88
+    W, H = 860, 640
+    hub_r, member_r, member_radius = 24, 16, 92
 
     positions, node_info, intra_edges, hub_names = {}, {}, [], {}
 
@@ -235,22 +235,28 @@ def build_constellation_svg() -> str:
             node_info[name] = (slug, color, label, member_r, False)
             intra_edges.append((hub_name, name))
 
+    # clean rectangular loop between cluster hubs -- no diagonal through the center
     curved_bridges = [
-        ("Python", "JavaScript", 410, 105),
-        ("Python", "Kali Linux", 118, 300),
-        ("JavaScript", "Git", 702, 300),
-        ("Kali Linux", "Git", 410, 495),
-        ("Python", "Git", 410, 300),
+        ("Python", "JavaScript", 430, 108),
+        ("JavaScript", "Git", 738, 320),
+        ("Git", "Kali Linux", 430, 532),
+        ("Kali Linux", "Python", 122, 320),
     ]
 
     parts = [
         f'<svg width="{W}" height="{H}" viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg">',
+        '  <defs>',
+        '    <pattern id="dotgrid" width="28" height="28" patternUnits="userSpaceOnUse">',
+        '      <circle cx="1.2" cy="1.2" r="1.2" fill="#2a2e42"/>',
+        '    </pattern>',
+        '  </defs>',
         f'  <rect x="0" y="0" width="{W}" height="{H}" rx="16" fill="#1a1b27"/>',
+        f'  <rect x="0" y="0" width="{W}" height="{H}" rx="16" fill="url(#dotgrid)"/>',
     ]
 
     for key, c in clusters.items():
         ccx, ccy = c["center"]
-        parts.append(f'  <circle cx="{ccx}" cy="{ccy}" r="{member_radius + 26}" fill="none" stroke="#24283b" stroke-width="1.5" stroke-dasharray="4 4"/>')
+        parts.append(f'  <circle cx="{ccx}" cy="{ccy}" r="{member_radius + 26}" fill="none" stroke="#2a2e42" stroke-width="1.2" stroke-dasharray="3 5" opacity="0.7"/>')
         parts.append(f'  <text x="{ccx}" y="{ccy - member_radius - 36}" font-family="Fira Code, Consolas, monospace" font-size="13" font-weight="bold" fill="#7aa2f7" text-anchor="middle">{key}</text>')
 
     for a, b in intra_edges:
@@ -304,4 +310,4 @@ if __name__ == "__main__":
     print("Building clustered constellation graph...")
     with open("assets/techstack-constellation.svg", "w", encoding="utf-8") as f:
         f.write(build_constellation_svg())
-    print("Saved assets/techstack-constellation.svg")
+    print("Saved assets/techstack-constellation.svg") 
