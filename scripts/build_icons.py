@@ -55,15 +55,55 @@ def get_svg_dimensions(svg_bytes: bytes) -> tuple[float, float]:
     return 200.0, 32.0
 
 
+def is_blank_svg(content: bytes) -> bool:
+    """skillicons.dev returns a valid but EMPTY svg for unknown slugs.
+    Detect that so the fallback chain actually kicks in."""
+    text = content.decode("utf-8", errors="ignore").lower()
+    has_art = any(tag in text for tag in ("<path", "<circle", "<rect", "<polygon", "<image", "<g "))
+    if not has_art:
+        return True
+    # a real icon has substantial path data; placeholders are tiny
+    path_data = "".join(re.findall(r'\sd="([^"]*)"', text))
+    if len(path_data) < 40 and "<image" not in text:
+        return True
+    return False
+
+
+def recolor_svg(svg_bytes: bytes, color: str) -> bytes:
+    """simple-icons / iconify SVGs use fill="currentColor" (renders black).
+    Swap in the brand color so they show up on a dark background."""
+    text = svg_bytes.decode("utf-8", errors="ignore")
+    text = text.replace('fill="currentColor"', f'fill="{color}"')
+    if "fill=" not in text:
+        text = text.replace("<svg", f'<svg fill="{color}"', 1)
+    return text.encode("utf-8")
+
+
 def render_node_glyph(slug: str, label: str, color: str, x: float, y: float, size: float) -> str:
-    """Real icon if skillicons has it; otherwise a clean colored text badge
-    in the tool's brand color (never a blank grey blob)."""
-    data_uri = fetch_as_data_uri(f"https://skillicons.dev/icons?i={slug}") if slug else None
-    if data_uri:
+    """Try several icon sources in order; fall back to a colored text badge
+    only if every source fails."""
+    sources = []
+    if slug:
+        # 1. skillicons (already full-color, no recolor needed)
+        sources.append((f"https://skillicons.dev/icons?i={slug}", False))
+        # 2. simple-icons CDN (monochrome, needs recolor)
+        sources.append((f"https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/{slug}.svg", True))
+        # 3. Iconify file-icons set (monochrome, needs recolor)
+        sources.append((f"https://api.iconify.design/file-icons:{slug}.svg", True))
+
+    for url, needs_recolor in sources:
+        content = fetch(url)
+        if not content or is_blank_svg(content):
+            continue
+        if needs_recolor:
+            content = recolor_svg(content, color)
+        data_uri = to_data_uri(content)
         return (
             f'  <image x="{x - size/2:.1f}" y="{y - size/2:.1f}" '
             f'width="{size:.1f}" height="{size:.1f}" href="{data_uri}"/>'
         )
+
+    print(f"  -> no icon found for '{slug}', using text label '{label}'")
     fs = size * 0.42
     return (
         f'  <text x="{x:.1f}" y="{y + fs/3:.1f}" font-size="{fs:.1f}" font-weight="bold" '
