@@ -9,6 +9,9 @@
 <a href="https://discord.gg/ja_mes001_95837" target="_blank">
 <img src="https://raw.githubusercontent.com/bibashthapa143/bibashthapa143/main/assets/connect-pulse.svg" />
 </a>
+<a href="https://x.com/Bibashthapa143" target="_blank">
+<img src="https://img.shields.io/badge/X-000000?style=for-the-badge&logo=x&logoColor=white" />
+</a>
 </p>
 <br/>
 
