@@ -10,7 +10,7 @@
 <img src="https://raw.githubusercontent.com/bibashthapa143/bibashthapa143/main/assets/connect-pulse.svg" />
 </a>
 <a href="https://x.com/Bibashthapa143" target="_blank">
-<img src="https://img.shields.io/badge/X-000000?style=for-the-badge&logo=x&logoColor=white" />
+   <img src="https://raw.githubusercontent.com/bibashthapa143/bibashthapa143/main/assets/connect-x-pulse.svg" />
 </a>
 </p>
 <br/>
