@@ -16,6 +16,10 @@ DISCORD_BADGE_URL = (
     "?style=for-the-badge&logo=discord&logoColor=white"
 )
 
+X_BADGE_URL = (
+    "https://img.shields.io/badge/X-000000?style=for-the-badge&logo=x&logoColor=white"
+)
+
 
 # --- Utility Functions ---
 
@@ -138,10 +142,11 @@ def build_techstack_svg() -> str:
     )
 
 
-def build_connect_svg() -> str:
-    raw = fetch(DISCORD_BADGE_URL)
+def build_badge_svg(badge_url: str, ring_color: str) -> str:
+    """Generic animated 'pulse ring' badge builder — used for Discord, X, etc."""
+    raw = fetch(badge_url)
     if not raw:
-        raise RuntimeError("Could not fetch Discord badge")
+        raise RuntimeError(f"Could not fetch badge: {badge_url}")
     natural_w, natural_h = get_svg_dimensions(raw)
     data_uri = to_data_uri(raw)
 
@@ -156,7 +161,7 @@ def build_connect_svg() -> str:
     ring_x, ring_y = img_x - 10, img_y - 7
 
     return f'''<svg width="{canvas_w}" height="{canvas_h}" viewBox="0 0 {canvas_w} {canvas_h}" xmlns="http://www.w3.org/2000/svg">
-  <rect x="{ring_x:.1f}" y="{ring_y:.1f}" width="{ring_w:.1f}" height="{ring_h:.1f}" rx="6" fill="none" stroke="#7289DA" stroke-width="2" opacity="0.7">
+  <rect x="{ring_x:.1f}" y="{ring_y:.1f}" width="{ring_w:.1f}" height="{ring_h:.1f}" rx="6" fill="none" stroke="{ring_color}" stroke-width="2" opacity="0.7">
     <animate attributeName="width" values="{ring_w:.1f};{ring_w+30:.1f};{ring_w:.1f}" dur="2s" repeatCount="indefinite"/>
     <animate attributeName="height" values="{ring_h:.1f};{ring_h+14:.1f};{ring_h:.1f}" dur="2s" repeatCount="indefinite"/>
     <animate attributeName="x" values="{ring_x:.1f};{ring_x-15:.1f};{ring_x:.1f}" dur="2s" repeatCount="indefinite"/>
@@ -166,6 +171,14 @@ def build_connect_svg() -> str:
   <image x="{img_x:.1f}" y="{img_y:.1f}" width="{img_w:.1f}" height="{img_h:.1f}" href="{data_uri}"/>
 </svg>
 '''
+
+
+def build_connect_svg() -> str:
+    return build_badge_svg(DISCORD_BADGE_URL, "#7289DA")
+
+
+def build_x_svg() -> str:
+    return build_badge_svg(X_BADGE_URL, "#e7e9ea")
 
 
 def build_constellation_svg() -> str:
@@ -307,7 +320,12 @@ if __name__ == "__main__":
         f.write(build_connect_svg())
     print("Saved assets/connect-pulse.svg")
 
+    print("Building X connect badge...")
+    with open("assets/connect-x-pulse.svg", "w", encoding="utf-8") as f:
+        f.write(build_x_svg())
+    print("Saved assets/connect-x-pulse.svg")
+
     print("Building clustered constellation graph...")
     with open("assets/techstack-constellation.svg", "w", encoding="utf-8") as f:
         f.write(build_constellation_svg())
-    print("Saved assets/techstack-constellation.svg") 
+    print("Saved assets/techstack-constellation.svg")
