@@ -143,7 +143,6 @@ def build_techstack_svg() -> str:
 
 
 def build_badge_svg(badge_url: str, ring_color: str) -> str:
-    """Generic animated 'pulse ring' badge builder — used for Discord, X, etc."""
     raw = fetch(badge_url)
     if not raw:
         raise RuntimeError(f"Could not fetch badge: {badge_url}")
@@ -154,7 +153,8 @@ def build_badge_svg(badge_url: str, ring_color: str) -> str:
     scale = target_h / natural_h
     img_w, img_h = natural_w * scale, target_h
 
-    canvas_w, canvas_h = 240, 70
+    # extra canvas padding so the pulse ring's outward animation never clips
+    canvas_w, canvas_h = img_w + 90, 110
     img_x = (canvas_w - img_w) / 2
     img_y = (canvas_h - img_h) / 2
     ring_w, ring_h = img_w + 20, img_h + 14
