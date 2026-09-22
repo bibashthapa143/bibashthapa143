@@ -7,11 +7,11 @@
 ## ⟢ Connect
 <p align="left">
 <a href="https://discord.gg/ja_mes001_95837" target="_blank">
-<img src="https://raw.githubusercontent.com/bibashthapa143/bibashthapa143/main/assets/connect-pulse.svg" />
+<img src="https://raw.githubusercontent.com/bibashthapa143/bibashthapa143/main/assets/connect-pulse.svg" style="vertical-align: middle;" />
 </a>
 &nbsp;&nbsp;
 <a href="https://x.com/Bibashthapa143" target="_blank">
-<img src="https://raw.githubusercontent.com/bibashthapa143/bibashthapa143/main/assets/connect-x-pulse.svg" />
+<img src="https://raw.githubusercontent.com/bibashthapa143/bibashthapa143/main/assets/connect-x-pulse.svg" style="vertical-align: middle;" />
 </a>
 </p>
 <br/>
