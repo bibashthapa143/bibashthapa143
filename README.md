@@ -26,7 +26,7 @@
 <div align="center">
 <img src="https://streak-stats.demolab.com/?user=bibashthapa143&background=1A1B27&border=414868&stroke=BB9AF7&ring=BB9AF7&fire=FF9E64&currStreakLabel=BB9AF7&sideLabels=A9B1D6&dates=787C99&currStreakNum=C0CAF5&sideNums=C0CAF5&hide_border=false" />
 <br>
-<img src="https://github-readme-stats-nine-gamma-90.vercel.app/api/top-langs/?username=bibashthapa143&theme=tokyonight&hide_border=false&layout=compact" />
+
 </div>
 <br/>
 
