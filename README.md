@@ -35,7 +35,7 @@ Built with `Python` · `FastAPI` · `SQLite`
 
 <br/>
 
-### [Password Breach Checker](https://github.com/bibashthapa143/password-breach-checker-)
+### [Keyguard](https://github.com/bibashthapa143/password-breach-checker-)
 
 Checks password strength and breach exposure. The password never leaves the browser: only the first 5 characters of its `SHA-1` hash are sent to the Have I Been Pwned API (k-anonymity).
 
