@@ -9,7 +9,7 @@ Curious about how systems work and how they break.<br/>
 Learning through hands-on projects.
 </h3>
 
-[About](#about) &nbsp;·&nbsp; [Projects](#projects) &nbsp;·&nbsp; [Tech Stack](#tech-stack) &nbsp;·&nbsp; [Contact](#contact)
+[About](#about) &nbsp;·&nbsp; [Projects](#projects) &nbsp;·&nbsp; [Tech Stack](#tech-stack) &nbsp;·&nbsp; [GitHub Activity](#github-activity) &nbsp;·&nbsp; [Contact](#contact)
 
 </div>
 
@@ -39,9 +39,7 @@ Built with `Python` · `FastAPI` · `SQLite`
 
 Checks password strength and breach exposure. The password never leaves the browser: only the first 5 characters of its `SHA-1` hash are sent to the Have I Been Pwned API (k-anonymity).
 
-Built with `Next.js` · `JavaScript`
-
-[Live demo](https://password-breach-checker-three.vercel.app)
+Built with `Next.js` · `JavaScript` &nbsp;·&nbsp; [Live demo](https://password-breach-checker-three.vercel.app)
 
 <br/>
 
