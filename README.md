@@ -11,7 +11,7 @@ Curious about how systems work and how they break.<br/>
 Learning through hands-on projects.
 </h3>
 
-[About](#about) &nbsp;·&nbsp; [Projects](#projects) &nbsp;·&nbsp; [Tech Stack](#tech-stack) &nbsp;·&nbsp; [GitHub Activity](#github-activity) &nbsp;·&nbsp; [Contact](#contact)
+&nbsp;·&nbsp;[About](#about) &nbsp;·&nbsp; [Projects](#projects) &nbsp;·&nbsp; [Tech Stack](#tech-stack) &nbsp;·&nbsp; [GitHub Activity](#github-activity) &nbsp;·&nbsp; [Contact](#contact)
 
 </div>
 
