@@ -6,7 +6,7 @@
 <img alt="Tribhuvan University" src="https://img.shields.io/badge/Tribhuvan%20University-24283B?style=flat-square" height="26">
 <img alt="Nepal" src="https://img.shields.io/badge/Nepal-24283B?style=flat-square" height="26">
 
-<h3>
+<h3><i>
 Curious about how systems work and how they break.<br/>
 Learning through hands-on projects.
 </h3>
