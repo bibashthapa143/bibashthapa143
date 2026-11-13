@@ -4,12 +4,18 @@
 
 **BCA student · Tribhuvan University · Nepal**
 
-I build security tools to understand how systems work and how they break.<br/>
-Currently building [PySIEM](https://github.com/bibashthapa143/pysiem), a lightweight SIEM in Python.
+<img alt="BCA student" src="https://img.shields.io/badge/BCA%20Student-24283B?style=flat-square" height="26">
+<img alt="Tribhuvan University" src="https://img.shields.io/badge/Tribhuvan%20University-24283B?style=flat-square" height="26">
+<img alt="Nepal" src="https://img.shields.io/badge/Nepal-24283B?style=flat-square" height="26">
+
+<h3><i>
+Curious about how systems work and how they break.<br/>
+Learning through hands-on projects.</i>
+</h3>
 
 Open to internships and junior roles in software engineering and security.
 
-[About](#about) &nbsp;·&nbsp; [Projects](#featured-projects) &nbsp;·&nbsp; [Skills](#skills) &nbsp;·&nbsp; [Activity](#github-activity) &nbsp;·&nbsp; [Contact](#contact)
+&nbsp;·&nbsp;[About](#about) &nbsp;·&nbsp; [Projects](#featured-projects) &nbsp;·&nbsp; [Skills](#skills) &nbsp;·&nbsp; [Activity](#github-activity) &nbsp;·&nbsp; [Contact](#contact)
 
 </div>
 
