@@ -12,7 +12,7 @@ Learning through hands-on projects.</i>
 <br/>
 
 <p>
-  <a href="#about"><img alt="About" src="https://img.shields.io/badge/About-24283B?style=for-the-badge&logo=github&logoColor=BB9AF7&labelColor=1A1B27"></a>
+ <img alt="About" src="https://img.shields.io/badge/About-24283B?style=for-the-badge&logo=github&logoColor=BB9AF7&labelColor=1A1B27">
   &nbsp;
   <a href="#projects"><img alt="Projects" src="https://img.shields.io/badge/Projects-24283B?style=for-the-badge&logo=folder&logoColor=BB9AF7&labelColor=1A1B27"></a>
   &nbsp;
@@ -285,11 +285,7 @@ Class work and practice for object-oriented programming.
 <img alt="GitHub Streak" src="https://streak-stats.demolab.com/?user=bibashthapa143&theme=tokyonight&hide_border=true&background=1A1B27&border=414868&stroke=BB9AF7&ring=BB9AF7&fire=FF9E64&currStreakLabel=BB9AF7&sideLabels=A9B1D6&dates=787C99&currStreakNum=C0CAF5&sideNums=C0CAF5&border_radius=10" width="100%">
 
 </td>
-<td align="center" valign="top" width="50%">
 
-<img alt="GitHub Activity Graph" src="https://github-readme-activity-graph.vercel.app/graph?username=bibashthapa143&theme=tokyo-night&hide_border=true&bg_color=1A1B27&color=BB9AF7&line=BB9AF7&point=BB9AF7&area=true&area_color=BB9AF7" width="100%">
-
-</td>
 </tr>
 </table>
 
