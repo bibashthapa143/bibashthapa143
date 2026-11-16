@@ -268,11 +268,7 @@ Class work and practice for object-oriented programming.
 <img alt="Bibash's GitHub Stats" src="https://github-readme-stats.vercel.app/api?username=bibashthapa143&show_icons=true&theme=tokyonight&hide_border=true&bg_color=1A1B27&title_color=BB9AF7&text_color=A9B1D6&icon_color=BB9AF7&border_color=414868&border_radius=10&include_all_commits=true&count_private=true" width="100%">
 
 </td>
-<td align="center" valign="top" width="50%">
 
-<img alt="Top Languages" src="https://github-readme-stats.vercel.app/api/top-langs/?username=bibashthapa143&layout=compact&theme=tokyonight&hide_border=true&bg_color=1A1B27&title_color=BB9AF7&text_color=A9B1D6&border_color=414868&border_radius=10&langs_count=8" width="100%">
-
-</td>
 </tr>
 </table>
 
