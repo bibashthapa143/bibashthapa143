@@ -1,33 +1,41 @@
 <div align="center">
-
-<table width="100%">
-<tr>
-<td width="64%" valign="middle">
-<p><sub>RECRUITER SIGNAL BRIEF · bibashthapa143</sub></p>
 <h1>Bibash Thapa</h1>
-<h2>Frontend or full-stack engineer</h2>
-<p>BCA student @ Tribhuvan University — building projects &amp; learning to code</p>
-<p><strong>● Building and sharing work in public</strong></p>
-<p><sub>Based in Nepal</sub></p>
-<p><a href="https://github.com/bibashthapa143">GitHub</a></p>
-</td>
-<td width="36%" valign="middle" align="center">
-<img src="https://avatars.githubusercontent.com/u/250774964?u=613ee26fc55d4fbec40ecc9267059b6929cd79c9&amp;v=4" width="180" alt="Bibash Thapa GitHub avatar" />
-</td>
-</tr>
-</table>
+
+<img alt="BCA student" src="https://img.shields.io/badge/BCA%20Student-24283B?style=flat-square" height="26">
+<img alt="Tribhuvan University" src="https://img.shields.io/badge/Tribhuvan%20University-24283B?style=flat-square" height="26">
+<img alt="Nepal" src="https://img.shields.io/badge/Nepal-24283B?style=flat-square" height="26">
+
+<h3><i>
+Curious about how systems work and how they break.<br/>
+Learning through hands-on projects.</i>
+</h3>
+
+
+
 </div>
 
-<h2>What teams can evaluate quickly</h2>
+<br/>
 
-<table width="100%">
+## About
+
+<table>
 <tr>
-<td width="33%" valign="top"><h3>Role fit</h3><p>Frontend or full-stack engineer · JavaScript · Python · TypeScript</p></td>
-<td width="33%" valign="top"><h3>Public proof</h3><p>8 repositories · 28 stars</p></td>
-<td width="33%" valign="top"><h3>Momentum</h3><p>499 contributions · 103 active days</p></td>
+<td width="62%" valign="top">
+
+### I like understanding how systems work by building them, and security is where that curiosity keeps leading me.
+
+My projects so far include a log-analysis system, a wrapper around Nmap, a password breach checker, and a demo of what websites can infer about their visitors.
+
+</td>
+<td width="38%" valign="middle">
+
+Currently building [PySIEM](https://github.com/bibashthapa143/pysiem), a lightweight SIEM in Python.
+
+</td>
 </tr>
 </table>
 
+<br/>
 <p><sub>BCA student @ Tribhuvan University — building projects &amp; learning to code</sub></p>
 
 <h2>Proof at a glance</h2>
@@ -37,7 +45,7 @@
 <td width="25%" align="center"><strong>8</strong><br /><sub>Repositories</sub></td>
 <td width="25%" align="center"><strong>28</strong><br /><sub>Stars</sub></td>
 <td width="25%" align="center"><strong>499</strong><br /><sub>Contributions</sub></td>
-<td width="25%" align="center"><strong>62</strong><br /><sub>Followers</sub></td>
+
 </tr>
 </table>
 
@@ -112,4 +120,4 @@
 </tr>
 </table>
 
-<p align="center"><sub>Bibash Thapa · recruiter-ready profile generated with <a href="https://www.gitskins.com/readme-generator">GitSkins</a></sub></p>
+<p align="center"><sub>Bibash Thapa </sub></p>
