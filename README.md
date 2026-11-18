@@ -1,330 +1,115 @@
 <div align="center">
 
-<img alt="" src="https://capsule-render.vercel.app/api?type=waving&color=0:1A1B27,100:BB9AF7&height=200&section=header&text=Bibash%20Thapa&fontSize=48&fontColor=BB9AF7&fontAlignY=35&desc=BCA%20Student%20%7C%20Tribhuvan%20University%20%7C%20Nepal&descAlignY=55&descSize=18&descAlign=50" width="100%">
+<table width="100%">
+<tr>
+<td width="64%" valign="middle">
+<p><sub>RECRUITER SIGNAL BRIEF · bibashthapa143</sub></p>
+<h1>Bibash Thapa</h1>
+<h2>Frontend or full-stack engineer</h2>
+<p>BCA student @ Tribhuvan University — building projects &amp; learning to code</p>
+<p><strong>● Building and sharing work in public</strong></p>
+<p><sub>Based in Nepal</sub></p>
+<p><a href="https://github.com/bibashthapa143">GitHub</a></p>
+</td>
+<td width="36%" valign="middle" align="center">
+<img src="https://avatars.githubusercontent.com/u/250774964?u=613ee26fc55d4fbec40ecc9267059b6929cd79c9&amp;v=4" width="180" alt="Bibash Thapa GitHub avatar" />
+</td>
+</tr>
+</table>
+</div>
 
-<br/>
+<h2>What teams can evaluate quickly</h2>
 
-<h3><i>
-Curious about how systems work and how they break.<br/>
-Learning through hands-on projects.</i>
-</h3>
+<table width="100%">
+<tr>
+<td width="33%" valign="top"><h3>Role fit</h3><p>Frontend or full-stack engineer · JavaScript · Python · TypeScript</p></td>
+<td width="33%" valign="top"><h3>Public proof</h3><p>8 repositories · 28 stars</p></td>
+<td width="33%" valign="top"><h3>Momentum</h3><p>499 contributions · 103 active days</p></td>
+</tr>
+</table>
 
-<br/>
+<p><sub>BCA student @ Tribhuvan University — building projects &amp; learning to code</sub></p>
 
-<p>
- <img alt="About" src="https://img.shields.io/badge/About-24283B?style=for-the-badge&logo=github&logoColor=BB9AF7&labelColor=1A1B27">
-  &nbsp;
-  <a href="#projects"><img alt="Projects" src="https://img.shields.io/badge/Projects-24283B?style=for-the-badge&logo=folder&logoColor=BB9AF7&labelColor=1A1B27"></a>
-  &nbsp;
-  <a href="#featured-project"><img alt="Featured Project" src="https://img.shields.io/badge/Featured%20Project-24283B?style=for-the-badge&logo=star&logoColor=BB9AF7&labelColor=1A1B27"></a>
-  &nbsp;
-  <a href="#tech-stack"><img alt="Tech Stack" src="https://img.shields.io/badge/Tech%20Stack-24283B?style=for-the-badge&logo=code&logoColor=BB9AF7&labelColor=1A1B27"></a>
-  &nbsp;
-  <a href="#github-stats"><img alt="GitHub Stats" src="https://img.shields.io/badge/GitHub%20Stats-24283B?style=for-the-badge&logo=chart-bar&logoColor=BB9AF7&labelColor=1A1B27"></a>
-  &nbsp;
-  <a href="#contact"><img alt="Contact" src="https://img.shields.io/badge/Contact-24283B?style=for-the-badge&logo=mail&logoColor=BB9AF7&labelColor=1A1B27"></a>
+<h2>Proof at a glance</h2>
+
+<table width="100%">
+<tr>
+<td width="25%" align="center"><strong>8</strong><br /><sub>Repositories</sub></td>
+<td width="25%" align="center"><strong>28</strong><br /><sub>Stars</sub></td>
+<td width="25%" align="center"><strong>499</strong><br /><sub>Contributions</sub></td>
+<td width="25%" align="center"><strong>62</strong><br /><sub>Followers</sub></td>
+</tr>
+</table>
+
+<p align="center">
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://www.gitskins.com/api/section/stats?username=bibashthapa143&theme=github-dark&avatar=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F250774964%3Fu%3D613ee26fc55d4fbec40ecc9267059b6929cd79c9%26v%3D4&v=recruiter-stats-1&mode=light" />
+  <img src="https://www.gitskins.com/api/section/stats?username=bibashthapa143&theme=github-dark&avatar=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F250774964%3Fu%3D613ee26fc55d4fbec40ecc9267059b6929cd79c9%26v%3D4&v=recruiter-stats-1&mode=dark" width="100%" alt="Bibash Thapa GitHub proof metrics" />
+</picture>
 </p>
 
-</div>
+<h2>Selected work</h2>
 
----
-
-## <img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/emojis/mocha.png" width="28" height="28" alt="About"> About
-
-<table>
+<table width="100%">
 <tr>
-<td width="65%" valign="top">
-
-### I like understanding how systems work by building them, and security is where that curiosity keeps leading me.
-
-My projects so far include a log-analysis system, a wrapper around `Nmap`, a password breach checker, and a demo of what websites can infer about their visitors.
-
+<td width="58%" valign="top">
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://www.gitskins.com/api/section/projects?username=bibashthapa143&theme=github-dark&avatar=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F250774964%3Fu%3D613ee26fc55d4fbec40ecc9267059b6929cd79c9%26v%3D4&repos=bibashthapa143%2Fpysiem%2Cbibashthapa143%2FKeyguard%2Cbibashthapa143%2Fwhoami-next%2Cbibashthapa143%2Fpython&v=recruiter-projects-1&mode=light" />
+  <img src="https://www.gitskins.com/api/section/projects?username=bibashthapa143&theme=github-dark&avatar=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F250774964%3Fu%3D613ee26fc55d4fbec40ecc9267059b6929cd79c9%26v%3D4&repos=bibashthapa143%2Fpysiem%2Cbibashthapa143%2FKeyguard%2Cbibashthapa143%2Fwhoami-next%2Cbibashthapa143%2Fpython&v=recruiter-projects-1&mode=dark" width="100%" alt="Bibash Thapa selected projects" />
+</picture>
 </td>
-<td width="35%" valign="middle" align="center">
+<td width="42%" valign="top">
+<h3><a href="https://github.com/bibashthapa143/pysiem">pysiem</a></h3>
+<p>A selected public project.</p>
+<p><sub>TypeScript · ⭐ 3 · 🍴 0</sub></p>
+<p><a href="https://github.com/bibashthapa143/pysiem">Read the repository →</a></p>
+</td>
+</tr>
+</table>
 
-<div style="background: linear-gradient(135deg, #1A1B27 0%, #24283B 100%); border: 1px solid #414868; border-radius: 16px; padding: 24px; margin-top: 16px;">
+<table width="100%">
+<tr>
+<td width="33%" valign="top"><h3><a href="https://github.com/bibashthapa143/Keyguard">Keyguard</a></h3><p>A selected public project.</p><p><sub>JavaScript · ⭐ 5</sub></p></td>
+<td width="33%" valign="top"><h3><a href="https://github.com/bibashthapa143/whoami-next">whoami-next</a></h3><p>A selected public project.</p><p><sub>JavaScript · ⭐ 3</sub></p></td>
+<td width="33%" valign="top"><h3><a href="https://github.com/bibashthapa143/python">python</a></h3><p>A selected public project.</p><p><sub>Python · ⭐ 4</sub></p></td>
+</tr>
+</table>
 
-<img src="https://img.shields.io/badge/Currently%20Building-PySIEM-BB9AF7?style=flat-square&logo=github&logoColor=1A1B27&labelColor=24283B" alt="Currently Building PySIEM" height="32">
+<h2>Technical toolkit</h2>
 
-<br/><br/>
-
-<p style="margin: 0; font-size: 14px; color: #A9B1D6;">
-A lightweight SIEM in <code style="color: BB9AF7; background: 1A1B27; padding: 2px 6px; border-radius: 4px;">Python</code>
+<p align="center">
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://www.gitskins.com/api/section/stack?username=bibashthapa143&theme=github-dark&avatar=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F250774964%3Fu%3D613ee26fc55d4fbec40ecc9267059b6929cd79c9%26v%3D4&v=recruiter-stack-1&mode=light" />
+  <img src="https://www.gitskins.com/api/section/stack?username=bibashthapa143&theme=github-dark&avatar=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F250774964%3Fu%3D613ee26fc55d4fbec40ecc9267059b6929cd79c9%26v%3D4&v=recruiter-stack-1&mode=dark" width="100%" alt="Bibash Thapa technology stack" />
+</picture>
 </p>
 
-<br/>
-
-<a href="https://github.com/bibashthapa143/pysiem" target="_blank">
-  <img alt="View PySIEM" src="https://img.shields.io/badge/View%20Repository-1A1B27?style=flat-square&logo=github&logoColor=BB9AF7&labelColor=24283B" height="28">
-</a>
-
-</div>
-
-</td>
+<table width="100%">
+<tr>
+<td width="20%" align="center"><strong>JavaScript</strong><br /><sub>39% of public code</sub></td>
+<td width="20%" align="center"><strong>Python</strong><br /><sub>22% of public code</sub></td>
+<td width="20%" align="center"><strong>TypeScript</strong><br /><sub>20% of public code</sub></td>
+<td width="20%" align="center"><strong>Java</strong><br /><sub>9% of public code</sub></td>
+<td width="20%" align="center"><strong>CSS</strong><br /><sub>6% of public code</sub></td>
 </tr>
 </table>
 
----
-
-## <img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/emojis/mocha.png" width="28" height="28" alt="Featured Project"> Featured Project
-
-<table>
-<tr>
-<td valign="top" width="60%">
-
-### [PySIEM](https://github.com/bibashthapa143/pysiem) <sub>· In Progress</sub>
-
-A lightweight SIEM with log parsing and normalization, `SQLite` storage, `YAML`-driven detection rules mapped to `MITRE ATT&CK`, alert deduplication and a web dashboard.
-
-<br/>
-
-<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;">
-  <img alt="Python" src="https://img.shields.io/badge/Python-1A1B27?style=flat-square&logo=python&logoColor=BB9AF7" height="26">
-  <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-1A1B27?style=flat-square&logo=fastapi&logoColor=BB9AF7" height="26">
-  <img alt="SQLite" src="https://img.shields.io/badge/SQLite-1A1B27?style=flat-square&logo=sqlite&logoColor=BB9AF7" height="26">
-  <img alt="YAML" src="https://img.shields.io/badge/YAML-1A1B27?style=flat-square&logo=yaml&logoColor=BB9AF7" height="26">
-  <img alt="MITRE ATT&CK" src="https://img.shields.io/badge/MITRE%20ATT%26CK-1A1B27?style=flat-square&logoColor=BB9AF7" height="26">
-</div>
-
-</td>
-<td valign="top" width="40%" align="center">
-
-<img src="https://github-readme-stats.vercel.app/api/pin/?username=bibashthapa143&repo=pysiem&theme=tokyonight&hide_border=true&bg_color=1A1B27&title_color=BB9AF7&text_color=A9B1D6&icon_color=BB9AF7&border_color=414868" alt="PySIEM Repository Stats" width="100%">
-
-</td>
-</tr>
-</table>
-
----
-
-## <img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/emojis/mocha.png" width="28" height="28" alt="Projects"> Projects
-
-<table>
-<tr>
-<td colspan="2" valign="top" style="padding-bottom: 24px;">
-
-### [Keyguard](https://github.com/bibashthapa143/Keyguard)
-
-A client-side password security inspector. It measures entropy with `zxcvbn`, estimates crack times across four attack scenarios, checks breach exposure, and generates passwords and passphrases. The password never leaves the browser: only the first 5 characters of its `SHA-1` hash are sent to the Have I Been Pwned API (k-anonymity).
-
-<br/>
-
-<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;">
-  <img alt="Next.js" src="https://img.shields.io/badge/Next.js-1A1B27?style=flat-square&logo=nextdotjs&logoColor=BB9AF7" height="26">
-  <img alt="JavaScript" src="https://img.shields.io/badge/JavaScript-1A1B27?style=flat-square&logo=javascript&logoColor=BB9AF7" height="26">
-  <img alt="zxcvbn" src="https://img.shields.io/badge/zxcvbn-1A1B27?style=flat-square&logoColor=BB9AF7" height="26">
-  <img alt="HIBP API" src="https://img.shields.io/badge/HIBP%20API-1A1B27?style=flat-square&logoColor=BB9AF7" height="26">
-</div>
-
-<br/>
-
-<a href="https://password-breach-checker-three.vercel.app" target="_blank">
-  <img alt="Live Demo" src="https://img.shields.io/badge/Live%20Demo-1A1B27?style=flat-square&logo=vercel&logoColor=BB9AF7&labelColor=24283B" height="28">
-</a>
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top" style="padding-right: 12px;">
-
-### [whoami-next](https://github.com/bibashthapa143/whoami-next)
-
-A privacy-awareness demo showing what a website can infer about a visitor from their public IP and browser metadata, with an exposure score and charts.
-
-<br/>
-
-<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;">
-  <img alt="Next.js" src="https://img.shields.io/badge/Next.js-1A1B27?style=flat-square&logo=nextdotjs&logoColor=BB9AF7" height="26">
-  <img alt="React" src="https://img.shields.io/badge/React-1A1B27?style=flat-square&logo=react&logoColor=BB9AF7" height="26">
-  <img alt="Tailwind CSS" src="https://img.shields.io/badge/Tailwind%20CSS-1A1B27?style=flat-square&logo=tailwindcss&logoColor=BB9AF7" height="26">
-  <img alt="Chart.js" src="https://img.shields.io/badge/Chart.js-1A1B27?style=flat-square&logo=chart.js&logoColor=BB9AF7" height="26">
-</div>
-
-</td>
-<td width="50%" valign="top" style="padding-left: 12px;">
-
-### [nmap_wrapper](https://github.com/bibashthapa143/python/tree/main/projects/nmap_wrapper) <sub>· Learning project</sub>
-
-A command-line tool that runs `Nmap` and shows only the open ports, with `--target`, `--ports` and `--save` options.
-
-<br/>
-
-<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;">
-  <img alt="Python" src="https://img.shields.io/badge/Python-1A1B27?style=flat-square&logo=python&logoColor=BB9AF7" height="26">
-  <img alt="Nmap" src="https://img.shields.io/badge/Nmap-1A1B27?style=flat-square&logoColor=BB9AF7" height="26">
-</div>
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top" style="padding-right: 12px; padding-top: 12px;">
-
-### [OOP in Java](https://github.com/bibashthapa143/oop-in-Bibash_java) <sub>· Class work</sub>
-
-Class work and practice for object-oriented programming.
-
-<br/>
-
-<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;">
-  <img alt="Java" src="https://img.shields.io/badge/Java-1A1B27?style=flat-square&logo=openjdk&logoColor=BB9AF7" height="26">
-</div>
-
-</td>
-<td width="50%" valign="top" style="padding-left: 12px; padding-top: 12px;" align="center">
-
-<div style="background: linear-gradient(135deg, #1A1B27 0%, #24283B 100%); border: 1px solid #414868; border-radius: 16px; padding: 32px; text-align: center;">
-
-<img alt="More Projects" src="https://img.shields.io/badge/Explore%20More%20Projects-1A1B27?style=flat-square&logo=github&logoColor=BB9AF7&labelColor=24283B" height="32">
-
-<br/><br/>
-
-<a href="https://github.com/bibashthapa143?tab=repositories" target="_blank">
-  <img alt="Repositories Tab" src="https://img.shields.io/badge/Repositories%20Tab-24283B?style=flat-square&logo=github&logoColor=BB9AF7&labelColor=1A1B27" height="28">
-</a>
-
-</div>
-
-</td>
-</tr>
-</table>
-
----
-
-## <img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/emojis/mocha.png" width="28" height="28" alt="Tech Stack"> Tech Stack
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 16px;">
-
-<div style="background: linear-gradient(135deg, #1A1B27 0%, #24283B 100%); border: 1px solid #414868; border-radius: 16px; padding: 24px;">
-
-### <img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/emojis/mocha.png" width="20" height="20" alt="Languages"> Languages
-
-<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;">
-  <img alt="Python" src="https://img.shields.io/badge/Python-1A1B27?style=flat-square&logo=python&logoColor=BB9AF7" height="28">
-  <img alt="JavaScript" src="https://img.shields.io/badge/JavaScript-1A1B27?style=flat-square&logo=javascript&logoColor=BB9AF7" height="28">
-  <img alt="Java" src="https://img.shields.io/badge/Java-1A1B27?style=flat-square&logo=openjdk&logoColor=BB9AF7" height="28">
-  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-1A1B27?style=flat-square&logo=typescript&logoColor=BB9AF7" height="28">
-  <img alt="C" src="https://img.shields.io/badge/C-1A1B27?style=flat-square&logo=c&logoColor=BB9AF7" height="28">
-  <img alt="C++" src="https://img.shields.io/badge/C%2B%2B-1A1B27?style=flat-square&logo=cplusplus&logoColor=BB9AF7" height="28">
-</div>
-
-</div>
-
-<div style="background: linear-gradient(135deg, #1A1B27 0%, #24283B 100%); border: 1px solid #414868; border-radius: 16px; padding: 24px;">
-
-### <img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/emojis/mocha.png" width="20" height="20" alt="Web"> Web & Frameworks
-
-<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;">
-  <img alt="Next.js" src="https://img.shields.io/badge/Next.js-1A1B27?style=flat-square&logo=nextdotjs&logoColor=BB9AF7" height="28">
-  <img alt="React" src="https://img.shields.io/badge/React-1A1B27?style=flat-square&logo=react&logoColor=BB9AF7" height="28">
-  <img alt="Tailwind CSS" src="https://img.shields.io/badge/Tailwind%20CSS-1A1B27?style=flat-square&logo=tailwindcss&logoColor=BB9AF7" height="28">
-  <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-1A1B27?style=flat-square&logo=fastapi&logoColor=BB9AF7" height="28">
-  <img alt="Node.js" src="https://img.shields.io/badge/Node.js-1A1B27?style=flat-square&logo=nodedotjs&logoColor=BB9AF7" height="28">
-  <img alt="HTML5" src="https://img.shields.io/badge/HTML5-1A1B27?style=flat-square&logo=html5&logoColor=BB9AF7" height="28">
-  <img alt="CSS3" src="https://img.shields.io/badge/CSS3-1A1B27?style=flat-square&logo=css3&logoColor=BB9AF7" height="28">
-</div>
-
-</div>
-
-<div style="background: linear-gradient(135deg, #1A1B27 0%, #24283B 100%); border: 1px solid #414868; border-radius: 16px; padding: 24px;">
-
-### <img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/emojis/mocha.png" width="20" height="20" alt="Security"> Security & Systems
-
-<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;">
-  <img alt="Linux" src="https://img.shields.io/badge/Linux-1A1B27?style=flat-square&logo=linux&logoColor=BB9AF7" height="28">
-  <img alt="Kali Linux" src="https://img.shields.io/badge/Kali%20Linux-1A1B27?style=flat-square&logo=kalilinux&logoColor=BB9AF7" height="28">
-  <img alt="Nmap" src="https://img.shields.io/badge/Nmap-1A1B27?style=flat-square&logoColor=BB9AF7" height="28">
-  <img alt="VMware" src="https://img.shields.io/badge/VMware-1A1B27?style=flat-square&logo=vmware&logoColor=BB9AF7" height="28">
-</div>
-
-</div>
-
-<div style="background: linear-gradient(135deg, #1A1B27 0%, #24283B 100%); border: 1px solid #414868; border-radius: 16px; padding: 24px;">
-
-### <img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/emojis/mocha.png" width="20" height="20" alt="Tools"> Data & Tools
-
-<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;">
-  <img alt="Git" src="https://img.shields.io/badge/Git-1A1B27?style=flat-square&logo=git&logoColor=BB9AF7" height="28">
-  <img alt="GitHub" src="https://img.shields.io/badge/GitHub-1A1B27?style=flat-square&logo=github&logoColor=BB9AF7" height="28">
-  <img alt="Vercel" src="https://img.shields.io/badge/Vercel-1A1B27?style=flat-square&logo=vercel&logoColor=BB9AF7" height="28">
-  <img alt="Figma" src="https://img.shields.io/badge/Figma-1A1B27?style=flat-square&logo=figma&logoColor=BB9AF7" height="28">
-  <img alt="SQLite" src="https://img.shields.io/badge/SQLite-1A1B27?style=flat-square&logo=sqlite&logoColor=BB9AF7" height="28">
-  <img alt="YAML" src="https://img.shields.io/badge/YAML-1A1B27?style=flat-square&logo=yaml&logoColor=BB9AF7" height="28">
-</div>
-
-</div>
-
-</div>
-
----
-
-
-
-
-
-</tr>
-</table>
-
-<br/>
-
-<table>
-<tr>
-<td align="center" valign="top" width="50%">
-
-<img alt="GitHub Streak" src="https://streak-stats.demolab.com/?user=bibashthapa143&theme=tokyonight&hide_border=true&background=1A1B27&border=414868&stroke=BB9AF7&ring=BB9AF7&fire=FF9E64&currStreakLabel=BB9AF7&sideLabels=A9B1D6&dates=787C99&currStreakNum=C0CAF5&sideNums=C0CAF5&border_radius=10" width="100%">
-
-</td>
-
-</tr>
-</table>
-
-<br/>
-
-<div style="background: linear-gradient(135deg, #1A1B27 0%, #24283B 100%); border: 1px solid #414868; border-radius: 16px; padding: 24px; display: inline-block; margin-top: 16px;">
-
-<img alt="Profile Views" src="https://komarev.com/ghpvc/?username=bibashthapa143&style=flat-square&color=BB9AF7&label=Profile%20Views&labelColor=1A1B27" height="32">
-
-</div>
-
-</div>
-
----
-
-## <img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/emojis/mocha.png" width="28" height="28" alt="Contact"> Contact
-
-<div align="center">
-
-I'm happy to talk about projects, security, or collaboration.
-
-<br/><br/>
-
-<div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 16px; margin-top: 16px;">
-
-<a href="mailto:bibashthapa1432@gmail.com" target="_blank">
-  <img alt="Email" src="https://img.shields.io/badge/Email-1A1B27?style=for-the-badge&logo=gmail&logoColor=BB9AF7&labelColor=24283B" height="40">
-</a>
-
-<a href="https://x.com/Bibashthapa143" target="_blank">
-  <img alt="X (Twitter)" src="https://img.shields.io/badge/X-1A1B27?style=for-the-badge&logo=x&logoColor=BB9AF7&labelColor=24283B" height="40">
-</a>
-
-<a href="https://discord.gg/ja_mes001_95837" target="_blank">
-  <img alt="Discord" src="https://img.shields.io/badge/Discord-1A1B27?style=for-the-badge&logo=discord&logoColor=BB9AF7&labelColor=24283B" height="40">
-</a>
-
-<a href="https://github.com/bibashthapa143" target="_blank">
-  <img alt="GitHub" src="https://img.shields.io/badge/GitHub-1A1B27?style=for-the-badge&logo=github&logoColor=BB9AF7&labelColor=24283B" height="40">
-</a>
-
-</div>
-
-<br/><br/>
-
-<img alt="" src="https://capsule-render.vercel.app/api?type=waving&color=0:1A1B27,100:BB9AF7&height=120&section=footer&reversal=true" width="100%">
-
-<br/>
-
-<p style="color: #787C99; font-size: 13px; margin-top: 16px;">
-  <i>Designed with care — Built using GitHub-flavored Markdown</i>
+<h2>Consistency signal</h2>
+
+<p align="center">
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://www.gitskins.com/api/section/heatmap?username=bibashthapa143&theme=github-dark&avatar=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F250774964%3Fu%3D613ee26fc55d4fbec40ecc9267059b6929cd79c9%26v%3D4&v=recruiter-heatmap-1&mode=light" />
+  <img src="https://www.gitskins.com/api/section/heatmap?username=bibashthapa143&theme=github-dark&avatar=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F250774964%3Fu%3D613ee26fc55d4fbec40ecc9267059b6929cd79c9%26v%3D4&v=recruiter-heatmap-1&mode=dark" width="100%" alt="Bibash Thapa contribution activity" />
+</picture>
 </p>
 
-</div>
+<hr />
+
+<table width="100%">
+<tr>
+<td width="62%" valign="middle"><h2>Let’s talk about the next build</h2><p>Open to thoughtful teams, ambitious products, and useful engineering work.</p></td>
+<td width="38%" valign="middle" align="right"><a href="https://github.com/bibashthapa143">GitHub</a></td>
+</tr>
+</table>
+
+<p align="center"><sub>Bibash Thapa · recruiter-ready profile generated with <a href="https://www.gitskins.com/readme-generator">GitSkins</a></sub></p>
