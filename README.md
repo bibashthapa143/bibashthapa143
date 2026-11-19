@@ -119,5 +119,3 @@ Currently building [PySIEM](https://github.com/bibashthapa143/pysiem), a lightwe
 <td width="38%" valign="middle" align="right"><a href="https://github.com/bibashthapa143">GitHub</a></td>
 </tr>
 </table>
-
-<p align="center"><sub>Bibash Thapa </sub></p>
