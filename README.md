@@ -36,7 +36,7 @@ Currently building [PySIEM](https://github.com/bibashthapa143/pysiem), a lightwe
 </table>
 
 <br/>
-<p><sub>BCA student @ Tribhuvan University — building projects &amp; learning to code</sub></p>
+
 
 <h2>Proof at a glance</h2>
 
