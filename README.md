@@ -7,7 +7,7 @@
 
 <h3><i>
 Curious about how systems work and how they break.<br/>
-Learning through hands-on projects.</i>
+Learning through hands-on projects.
 </h3>
 
 
